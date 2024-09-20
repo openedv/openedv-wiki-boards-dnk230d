@@ -1,5 +1,7 @@
+---
 title: '跑马灯实验'
 sidebar_position: 1
+---
 
 # 跑马灯实验
 
@@ -63,7 +65,7 @@ FPIOA.set_function(pin, func, ie=-1, oe=-1, pu=-1, pd=-1, st=-1, sl=-1, ds=-1)
 
 更多用法请阅读官方文档：
 
-https://developer.canaan-creative.com/k230_canmv/dev/zh/api/canmv_spec.html
+<https://developer.canaan-creative.com/k230_canmv/dev/zh/api/canmv_spec.html>
 
 ## Pin模块介绍:
 
@@ -256,7 +258,7 @@ LEDB - IO61
 
 本章实验内容，需要控制板载双色 LED 轮流闪烁，以实现跑马灯的效果，正点原子 DNK210开发板上双色 LED 的连接原理图，如下图所示：  
 
-![01](F:\K230\K230D\openedv-wiki-boards-dnk230d\infratest\img\01.png)
+![01](./img/01.png)
 
 通过以上原理图可以看出， 双色LED 中红色和蓝色LED对应的IO编号分别为IO59和IO61，且都是当 IO 输出低电平时 LED 亮起，当 IO 输出高电平时 LED 熄灭。  
 
