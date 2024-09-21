@@ -5,21 +5,15 @@ sidebar_position: 1
 
 # 跑马灯实验
 
-
-
 ## 前言
 
-K230D内部包含64个GPIO Pin，每个Pin可配置为输入或输出，可配置上下拉，可配置驱动能力。
+本章实验将介绍如何使用CanMV让Kendryte K230D控制板载的双色LED闪烁，以实现跑马灯的效果。通过本章的学习，读者将学习到在CanMV下控制Kendryte K230D的GPIO输出高低电平。  
 
-本章实验将介绍如何使用 CanMV 让 Kendryte K230D 控制板载的双色 LED 闪烁，以实现跑马灯的效果。通过本章的学习，读者将学习到在 CanMV 下控制 Kendryte K230 的 GPIO 输出高低电平。  
-
-
-
-## FPIOA模块介绍：
+## FPIOA模块介绍
 
 ### 概述
 
-IOMUX主要配置物理PAD(管脚)的功能，由于soc功能多管脚(pads)少，多个功能共享同一个I/O管脚(pads),但是一个pads同一时间只能使用其中一个功能,所以需要IOMUX进行功能选择。IOMUX也叫FPIOA，Pin multiplexing，管脚功能选择等。
+IOMUX主要配置物理PAD(管脚)的功能，由于soc功能多管脚(pads)少，多个功能共享同一个I/O管脚(pads)，但是一个pads同一时间只能使用其中一个功能，所以需要IOMUX进行功能选择。IOMUX也叫FPIOA，Pin multiplexing，管脚功能选择等。
 
 ### API描述
 
@@ -31,8 +25,6 @@ FPIOA类位于machine模块下
 fpioa = FPIOA()
 ```
 
-
-
 【参数】
 
 无
@@ -42,8 +34,6 @@ fpioa = FPIOA()
 ```
 FPIOA.set_function(pin, func, ie=-1, oe=-1, pu=-1, pd=-1, st=-1, sl=-1, ds=-1)
 ```
-
-
 
 设置引脚的功能
 
@@ -63,15 +53,15 @@ FPIOA.set_function(pin, func, ie=-1, oe=-1, pu=-1, pd=-1, st=-1, sl=-1, ds=-1)
 
 无
 
-更多用法请阅读官方文档：
+更多用法请阅读官方API手册：
 
-<https://developer.canaan-creative.com/k230_canmv/dev/zh/api/canmv_spec.html>
+https://developer.canaan-creative.com/k230_canmv/dev/zh/api/canmv_spec.html
 
-## Pin模块介绍:
+## Pin模块介绍
 
 ### 概述
 
-K230内部包含64个GPIO Pin，每个Pin可配置为输入或输出，可配置上下拉，可配置驱动能力。
+K230D内部包含64个GPIO Pin，每个Pin可配置为输入或输出，可配置上下拉，可配置驱动能力。
 
 ### API描述
 
@@ -82,8 +72,6 @@ Pin类位于machine模块下
 ```
 pin = Pin(index, mode, pull=Pin.PULL_NONE, drive=7)
 ```
-
-
 
 【参数】
 
@@ -97,8 +85,6 @@ pin = Pin(index, mode, pull=Pin.PULL_NONE, drive=7)
 ```
 Pin.value([value])
 ```
-
-
 
 获取引脚输入或设置引脚输出
 
@@ -116,8 +102,6 @@ Pin.value([value])
 Pin.mode([mode])
 ```
 
-
-
 获取或设置引脚输入输出模式
 
 【参数】
@@ -133,8 +117,6 @@ Pin.mode([mode])
 ```
 Pin.pull([pull])
 ```
-
-
 
 获取或设置引脚上下拉配置
 
@@ -152,8 +134,6 @@ Pin.pull([pull])
 Pin.drive([drive])
 ```
 
-
-
 获取或设置引脚驱动能力
 
 【参数】
@@ -169,8 +149,6 @@ Pin.drive([drive])
 ```
 Pin.on()
 ```
-
-
 
 设置输出高
 
@@ -188,8 +166,6 @@ Pin.on()
 Pin.off()
 ```
 
-
-
 设置输出低
 
 【参数】
@@ -205,8 +181,6 @@ Pin.off()
 ```
 Pin.high()
 ```
-
-
 
 设置输出高
 
@@ -224,8 +198,6 @@ Pin.high()
 Pin.low()
 ```
 
-
-
 设置输出低
 
 【参数】
@@ -236,7 +208,7 @@ Pin.low()
 
 无
 
-更多用法请阅读官方文档：
+更多用法请阅读官方API手册：
 
 https://developer.canaan-creative.com/k230_canmv/dev/zh/api/canmv_spec.html
 
@@ -244,7 +216,7 @@ https://developer.canaan-creative.com/k230_canmv/dev/zh/api/canmv_spec.html
 
 ### 例程功能
 
-1. 控制板载双色 LED 轮流闪烁，实现跑马灯的效果  
+1. 控制板载双色LED轮流闪烁，实现跑马灯的效果  
 
 ### 硬件资源
 
@@ -256,11 +228,11 @@ LEDB - IO61
 
 ### 原理图
 
-本章实验内容，需要控制板载双色 LED 轮流闪烁，以实现跑马灯的效果，正点原子 DNK210开发板上双色 LED 的连接原理图，如下图所示：  
+本章实验内容，需要控制板载双色LED轮流闪烁，以实现跑马灯的效果，正点原子DNK230D开发板上双色LED的连接原理图，如下图所示：  
 
 ![01](./img/01.png)
 
-通过以上原理图可以看出， 双色LED 中红色和蓝色LED对应的IO编号分别为IO59和IO61，且都是当 IO 输出低电平时 LED 亮起，当 IO 输出高电平时 LED 熄灭。  
+通过以上原理图可以看出，双色LED中红色和蓝色LED对应的IO编号分别为IO59和IO61，且都是当IO输出低电平时LED亮起，当IO输出高电平时LED熄灭。  
 
 ##  实验代码
 
@@ -299,9 +271,9 @@ while True:
     time.sleep_ms(200)
 ```
 
-可以看到，首先通过 FPIOA构造函数构造了fpioa对象，然后通过set_function函数为控制双色 LED 的两个IO 分别分配了GPIO59 和GPIO61的功能， 再通过Pin模块的构造函数构造两个LED灯对象，均配置为输出模式并配置驱动能力，最后在一个循环中轮流设置这两个 GPIO 对象输出不同的高低电平并延时一段时间，从而应该能看到板载的双色 LED 轮流亮起、熄灭，实现跑马灯的效果。  
+可以看到，首先通过FPIOA构造函数构造了fpioa对象，然后通过set_function函数为控制双色LED的两个IO分别分配了GPIO59和GPIO61的功能，再通过Pin模块的构造函数构造两个LED灯对象，均配置为输出模式并配置驱动能力，最后在一个循环中轮流设置这两个GPIO对象输出不同的高低电平并延时一段时间，从而应该能看到板载的双色LED轮流亮起、熄灭，实现跑马灯的效果。 
 
 ## 运行验证
 
-将 DNK230D 开发板连接 CanMV IDE，并点击 CanMV IDE 上的“开始(运行脚本)”按钮后，可以看到板载的双色 LED 轮流亮起、熄灭，实现跑马灯的效果，这与理论推断的结果一致。  
+将DNK230D开发板连接CanMV IDE，并点击CanMV IDE上的“开始(运行脚本)”按钮后，可以看到板载的双色LED轮流亮起、熄灭，实现跑马灯的效果，这与理论推断的结果一致。  
 
