@@ -74,12 +74,11 @@ https://developer.canaan-creative.com/k230_canmv/dev/zh/api/canmv_spec.html
 
 ##  实验代码
 
-``` 
+``` python
 from machine import WDT
 from machine import Pin
 from machine import FPIOA
 import time
-
 # 实例化FPIOA
 fpioa = FPIOA()
 

@@ -57,7 +57,7 @@ K230D内部包含64个GPIO Pin，每个Pin可配置为输入或输出，可配�
 
 ## 实验代码
 
-```
+``` python
 from machine import Pin
 from machine import FPIOA
 import time

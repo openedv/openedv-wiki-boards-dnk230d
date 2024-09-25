@@ -99,7 +99,7 @@ https://developer.canaan-creative.com/k230_canmv/dev/zh/api/canmv_spec.html
 
 ##  实验代码
 
-``` 
+``` python
 from machine import Pin
 from machine import FPIOA
 from machine import Timer

@@ -236,7 +236,7 @@ LEDB - IO61
 
 ##  实验代码
 
-``` 
+``` python
 from machine import Pin
 from machine import FPIOA
 import time
