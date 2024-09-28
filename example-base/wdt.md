@@ -21,20 +21,20 @@ WDT类位于machine模块下
 
 #### 构造函数
 
-```
+```python
 wdt = WDT(id=1, timeout=5)
 ```
 
 【参数】
 
-- id: WDT号，取值:[0,1]，默认1
-- timeout: 超时值，单位s，默认5
+- id：WDT号，取值：[0,1]，默认1
+- timeout：超时值，单位s，默认5
 
 **注意：** WDT0暂不可用
 
 #### feed
 
-```
+```python
 WDT.feed()
 ```
 

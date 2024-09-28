@@ -13,7 +13,7 @@ sidebar_position: 8
 
 ### 概述
 
-K230D内部包含五个UART硬件模块，其中UART0被小核sh占用，UART3被大核sh占用，剩余UART1，UART2，UART4可供用户使用。 UART IO配置参考IOMUX模块。。
+K230D内部包含五个UART硬件模块，其中UART0被小核sh占用，UART3被大核sh占用，剩余UART1，UART2，UART4可供用户使用。UARTIO配置参考IOMUX模块。
 
 ### API描述
 
@@ -21,21 +21,21 @@ UART类位于machine模块下
 
 #### 构造函数
 
-```
+```python
 uart = UART(id, baudrate=115200, bits=UART.EIGHTBITS, parity=UART.PARITY_NONE, stop=UART.STOPBITS_ONE)
 ```
 
 【参数】
 
-- id: UART号，有效值 UART1、UART2、UART4
-- baudrate: UART波特率，可选参数，默认115200
-- bits: 每个字符的位数，有效值 FIVEBITS、SIXBITS、SEVENBITS、EIGHTBITS，可选参数，默认EIGHTBITS
-- parity: 奇偶校验，有效值 PARITY_NONE、PARITY_ODD、PARITY_EVEN，可选参数，默认PARITY_NONE
-- stop: 停止位的数目，有效值 STOPBITS_ONE、STOPBITS_TWO，可选参数，默认STOPBITS_ONE
+- id：UART号，有效值 UART1、UART2、UART4
+- baudrate：UART波特率，可选参数，默认115200
+- bits：每个字符的位数，有效值 FIVEBITS、SIXBITS、SEVENBITS、EIGHTBITS，可选参数，默认EIGHTBITS
+- parity：奇偶校验，有效值PARITY_NONE、PARITY_ODD、PARITY_EVEN，可选参数，默认PARITY_NONE
+- stop：停止位的数目，有效值STOPBITS_ONE、STOPBITS_TWO，可选参数，默认STOPBITS_ONE
 
 ### read
 
-```
+```python
 UART.read([nbytes])
 ```
 
@@ -43,7 +43,7 @@ UART.read([nbytes])
 
 【参数】
 
-- nbytes: 最多读取nbytes字节，可选参数
+- nbytes：最多读取nbytes字节，可选参数
 
 【返回值】
 
@@ -59,7 +59,7 @@ UART.write(buf)
 
 【参数】
 
-- buf: 一个buffer对象
+- buf：一个buffer对象
 
 【返回值】
 

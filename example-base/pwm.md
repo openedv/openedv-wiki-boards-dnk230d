@@ -21,20 +21,20 @@ PWM类位于machine模块下
 
 #### 构造函数
 
-```
+```python
 pwm = PWM(channel, freq, duty=50, enable=False)
 ```
 
 【参数】
 
-- channel: PWM通道号，取值:[0,5]
-- freq: PWM通道输出频率
-- duty: PWM通道输出占空比，指高电平占整个周期的百分比，取值:[0,100]，可选参数，默认50
-- enable: PWM通道输出立即使能，可选参数，默认False
+- channel：PWM通道号，取值：[0,5]
+- freq：PWM通道输出频率
+- duty：PWM通道输出占空比，指高电平占整个周期的百分比，取值：[0,100]，可选参数，默认50
+- enable：PWM通道输出立即使能，可选参数，默认False
 
 ### duty
 
-```
+```python
 PWM.duty([duty])
 ```
 
@@ -42,7 +42,7 @@ PWM.duty([duty])
 
 【参数】
 
-- duty: PWM通道输出占空比，可选参数，如果不传参数则返回当前占空比
+- duty：PWM通道输出占空比，可选参数，如果不传参数则返回当前占空比
 
 【返回值】
 

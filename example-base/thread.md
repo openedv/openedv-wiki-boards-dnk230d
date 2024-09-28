@@ -21,7 +21,7 @@ _thread线程模块衍生于python3
 
 #### start_new_thread
 
-```
+```python
 _thread.start_new_thread(function, args[, kwargs])
 ```
 
@@ -29,9 +29,9 @@ _thread.start_new_thread(function, args[, kwargs])
 
 【参数】
 
-- function: 功能函数
-- args: 参数（必须是元组）
-- kwargs: 使用字典来指定有名参数，可选参数
+- function：功能函数
+- args：参数（必须是元组）
+- kwargs：使用字典来指定有名参数，可选参数
 
 【返回值】
 
@@ -39,7 +39,7 @@ _thread.start_new_thread(function, args[, kwargs])
 
 更多用法请阅读官方手册：
 
-https://docs.python.org/zh-cn/3.5/library/_thread.html#module-thread
+https://docs.python.org/3.4/library/_thread.html
 
 ## 硬件设计
 

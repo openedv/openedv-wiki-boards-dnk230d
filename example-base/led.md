@@ -21,7 +21,7 @@ FPIOA类位于machine模块下
 
 #### 构造函数
 
-```
+```python
 fpioa = FPIOA()
 ```
 
@@ -31,7 +31,7 @@ fpioa = FPIOA()
 
 #### set_function
 
-```
+```python
 FPIOA.set_function(pin, func, ie=-1, oe=-1, pu=-1, pd=-1, st=-1, sl=-1, ds=-1)
 ```
 
@@ -39,15 +39,15 @@ FPIOA.set_function(pin, func, ie=-1, oe=-1, pu=-1, pd=-1, st=-1, sl=-1, ds=-1)
 
 【参数】
 
-- pin: 引脚号，取值:[0,63]
-- func: 功能号
-- ie: 重新设置输入使能，可选参数
-- oe: 重新设置输出使能，可选参数
-- pu: 重新设置上拉使能，可选参数
-- pd: 重新设置下拉使能，可选参数
-- st: 重新设置st使能，可选参数
-- sl: 重新设置sl使能，可选参数
-- ds: 重新设置驱动能力，可选参数
+- pin：引脚号，取值：[0,63]
+- func：功能号
+- ie：重新设置输入使能，可选参数
+- oe：重新设置输出使能，可选参数
+- pu：重新设置上拉使能，可选参数
+- pd：重新设置下拉使能，可选参数
+- st：重新设置st使能，可选参数
+- sl：重新设置sl使能，可选参数
+- ds：重新设置驱动能力，可选参数
 
 【返回值】
 
@@ -69,20 +69,20 @@ Pin类位于machine模块下
 
 #### 构造函数
 
-```
+```python
 pin = Pin(index, mode, pull=Pin.PULL_NONE, drive=7)
 ```
 
 【参数】
 
-- index: 引脚号，取值:[0,63]
-- mode: 输入或输出模式
-- pull: 上下拉配置，可选参数，默认PULL_NONE
-- drive: 驱动能力配置，可选参数，默认7
+- index：引脚号，取值：[0,63]
+- mode：输入或输出模式
+- pull：上下拉配置，可选参数，默认PULL_NONE
+- drive：驱动能力配置，可选参数，默认7
 
 #### value
 
-```
+```python
 Pin.value([value])
 ```
 
@@ -90,7 +90,7 @@ Pin.value([value])
 
 【参数】
 
-- value: 输出值，可选参数，如果不传参数则返回输入值
+- value：输出值，可选参数，如果不传参数则返回输入值
 
 【返回值】
 
@@ -98,7 +98,7 @@ Pin.value([value])
 
 #### mode
 
-```
+```python
 Pin.mode([mode])
 ```
 
@@ -106,7 +106,7 @@ Pin.mode([mode])
 
 【参数】
 
-- mode: 输入输出模式，可选参数，如果不传参数则返回当前输入输出模式
+- mode：输入输出模式，可选参数，如果不传参数则返回当前输入输出模式
 
 【返回值】
 
@@ -114,7 +114,7 @@ Pin.mode([mode])
 
 #### pull
 
-```
+```python
 Pin.pull([pull])
 ```
 
@@ -122,7 +122,7 @@ Pin.pull([pull])
 
 【参数】
 
-- pull: 上下拉配置，可选参数，如果不传参数则返回当前上下拉配置
+- pull：上下拉配置，可选参数，如果不传参数则返回当前上下拉配置
 
 【返回值】
 
@@ -130,7 +130,7 @@ Pin.pull([pull])
 
 #### drive
 
-```
+```python
 Pin.drive([drive])
 ```
 
@@ -138,7 +138,7 @@ Pin.drive([drive])
 
 【参数】
 
-- drive: 驱动能力，可选参数，如果不传参数则返回当前驱动能力
+- drive：驱动能力，可选参数，如果不传参数则返回当前驱动能力
 
 【返回值】
 
@@ -146,7 +146,7 @@ Pin.drive([drive])
 
 #### on
 
-```
+```python
 Pin.on()
 ```
 
@@ -162,7 +162,7 @@ Pin.on()
 
 #### off
 
-```
+```python
 Pin.off()
 ```
 
@@ -178,7 +178,7 @@ Pin.off()
 
 #### high
 
-```
+```python
 Pin.high()
 ```
 
@@ -194,7 +194,7 @@ Pin.high()
 
 #### low
 
-```
+```python
 Pin.low()
 ```
 
@@ -222,9 +222,9 @@ https://developer.canaan-creative.com/k230_canmv/dev/zh/api/canmv_spec.html
 
 1. 双色LED
 
-LEDR - IO59
+​	LEDR - IO59
 
-LEDB - IO61
+​	LEDB - IO61
 
 ### 原理图
 

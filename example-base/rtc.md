@@ -21,7 +21,7 @@ RTC类位于machine模块下
 
 #### 构造函数
 
-```
+```python
 rtc = RTC()
 ```
 
@@ -31,7 +31,7 @@ rtc = RTC()
 
 ### datetime
 
-```
+```python
 print(rtc.datetime())
 ```
 
@@ -41,13 +41,13 @@ print(rtc.datetime())
 
 【返回值】
 
-- year: 年
-- mon: 月
-- day: 日
-- hour: 时
-- min: 分
-- sec: 秒
-- microsec: 微秒
+- year：年
+- mon：月
+- day：日
+- hour：时
+- min：分
+- sec：秒
+- microsec：微秒
 
 更多用法请阅读官方API手册：
 

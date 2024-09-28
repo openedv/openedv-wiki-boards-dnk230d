@@ -21,24 +21,24 @@ Timer类位于machine模块下
 
 #### 构造函数
 
-```
+```python
 timer = Timer(index, mode=Timer.PERIODIC, freq=-1, period=-1, callback=None, arg=None)
 ```
 
 【参数】
 
-- index: Timer号，取值:[-1,5]，-1代表软件定时器
-- mode: 运行模式，单次或周期，可选参数
-- freq: Timer运行频率，支持浮点，单位Hz，可选参数，优先级高于`period`
-- period: Timer运行周期，单位ms，可选参数
-- callback: 超时回调函数，必须设置，要带一个参数
-- arg: 超时回调函数参数，可选参数
+- index：Timer号，取值：[-1,5]，-1代表软件定时器
+- mode：运行模式，单次或周期，可选参数
+- freq：Timer运行频率，支持浮点，单位Hz，可选参数，优先级高于`period`
+- period：Timer运行周期，单位ms，可选参数
+- callback：超时回调函数，必须设置，要带一个参数
+- arg：超时回调函数参数，可选参数
 
 **注意：** [0-5]硬件Timer暂不可用
 
 #### init
 
-```
+```python
 Timer.init(mode=Timer.PERIODIC, freq=-1, period=-1, callback=None, arg=None)
 ```
 
@@ -46,11 +46,11 @@ Timer.init(mode=Timer.PERIODIC, freq=-1, period=-1, callback=None, arg=None)
 
 【参数】
 
-- mode: 运行模式，单次或周期，可选参数
-- freq: Timer运行频率，支持浮点，单位Hz，可选参数，优先级高于`period`
-- period: Timer运行周期，单位ms，可选参数
-- callback: 超时回调函数，必须设置，要带一个参数
-- arg: 超时回调函数参数，可选参数
+- mode：运行模式，单次或周期，可选参数
+- freq：Timer运行频率，支持浮点，单位Hz，可选参数，优先级高于`period`
+- period：Timer运行周期，单位ms，可选参数
+- callback：超时回调函数，必须设置，要带一个参数
+- arg：超时回调函数参数，可选参数
 
 【返回值】
 
@@ -58,7 +58,7 @@ Timer.init(mode=Timer.PERIODIC, freq=-1, period=-1, callback=None, arg=None)
 
 #### deinit
 
-```
+```python
 Timer.deinit()
 ```
 
