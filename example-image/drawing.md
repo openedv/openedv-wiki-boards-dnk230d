@@ -9,13 +9,13 @@ sidebar_position: 1
 
 在前面的章节中，我们已经了解了如何在CanMV下使用K230D的基础外设以及开发板的板载资源，从本章开始我们将介绍图像处理相关应用，所使用的功能均移植自openmv，所以功能基本一致。详情请参考 [官方文档](https://docs.openmv.io/library/omv.image.html)。
 
-在前面的章节中我们已经提到了 image 模块的一些基本使用，本章将讲解 image 模块中的元素绘制。通过本章的学习，读者将学习到 image 模块中元素绘制的使用。
+在前面的章节中我们已经提到了image模块的一些基本使用，本章将讲解image模块中的元素绘制的方法。通过本章的学习，读者将学习到image模块中元素绘制的方法。
 
 ## Image模块介绍
 
 ### 概述
 
-`Image` 类是机器视觉处理中的基础对象。此类支持从Micropython GC、MMZ、系统堆、VB 区域等内存区域创建图像对象。此外，还可以通过引用外部内存直接创建图像（ALLOC_REF）。未使用的图像对象会在垃圾回收时自动释放，也可以手动释放内存。
+`Image` 类是机器视觉处理中的基础对象。此类支持从Micropython GC、MMZ、系统堆、VB区域等内存区域创建图像对象。此外，还可以通过引用外部内存直接创建图像（ALLOC_REF）。未使用的图像对象会在垃圾回收时自动释放，也可以手动释放内存。
 
 支持的图像格式如下：
 
@@ -33,7 +33,7 @@ sidebar_position: 1
 
 支持的内存分配区域：
 
-- **ALLOC_MPGC**：Micropython 管理的内存
+- **ALLOC_MPGC**：Micropython管理的内存
 - **ALLOC_HEAP**：系统堆内存
 - **ALLOC_MMZ**：多媒体内存
 - **ALLOC_VB**：视频缓冲区
@@ -49,17 +49,17 @@ sidebar_position: 1
 image.draw_line(x0, y0, x1, y1[, color[, thickness=1]])
 ```
 
-在图像上绘制一条从 (x0, y0) 到 (x1, y1) 的直线。参数可以分别传入 x0, y0, x1, y1，也可以将这些值作为元组 (x0, y0, x1, y1)一起传递。
+在图像上绘制一条从(x0, y0)到(x1, y1)的直线。参数可以分别传入x0,y0,x1,y1，也可以将这些值作为元组(x0, y0, x1, y1)一起传递。
 
 【参数】
 
-- color：表示颜色的RGB888元组，适用于灰度或 RGB565 图像，默认为白色。对于灰度图像，还可以传递像素值（范围 0-255）；对于 RGB565 图像，可以传递字节翻转的 RGB565 值。
-- thickness：控制线条的像素宽度，默认为 1。
+- color：表示颜色的RGB888元组，适用于灰度或RGB565图像，默认为白色。对于灰度图像，还可以传递像素值（范围0-255）；对于RGB565图像，可以传递字节翻转的RGB565值。
+- thickness：控制线条的像素宽度，默认为1。
 - 【返回值】
 
 该方法返回图像对象，允许通过链式调用其他方法。
 
-注意：不支持压缩图像和 Bayer 格式图像。
+注意：不支持压缩图像和Bayer格式图像。
 
 #### draw_rectangle
 
@@ -67,19 +67,19 @@ image.draw_line(x0, y0, x1, y1[, color[, thickness=1]])
 image.draw_rectangle(x, y, w, h[, color[, thickness=1[, fill=False]]])
 ```
 
-在图像上绘制一个矩形。可以分别传入参数 x, y, w, h，也可以作为元组 (x, y, w, h) 一起传递。
+在图像上绘制一个矩形。可以分别传入参数x, y, w, h，也可以作为元组(x, y, w, h)一起传递。
 
 【参数】
 
-- color：表示颜色的RGB888元组，适用于灰度或 RGB565 图像，默认为白色。对于灰度图像，还可以传递像素值（范围 0-255）；对于 RGB565 图像，可以传递字节翻转的 RGB565 值。
-- thickness：控制矩形边框的像素宽度，默认为 1。
-- fill：设置为 True 时，将填充矩形内部，默认为 False。
+- color：表示颜色的RGB888元组，适用于灰度或 RGB565 图像，默认为白色。对于灰度图像，还可以传递像素值（范围0-255）；对于RGB565图像，可以传递字节翻转的RGB565值。
+- thickness：控制矩形边框的像素宽度，默认为1。
+- fill：设置为True时，将填充矩形内部，默认为False。
 
 【返回值】
 
 该方法返回图像对象，允许通过链式调用其他方法。
 
-注意：不支持压缩图像和 Bayer 格式图像。
+注意：不支持压缩图像和Bayer格式图像。
 
 #### draw_circle
 
@@ -87,19 +87,19 @@ image.draw_rectangle(x, y, w, h[, color[, thickness=1[, fill=False]]])
 image.draw_circle(x, y, radius[, color[, thickness=1[, fill=False]]])
 ```
 
-在图像上绘制一个圆形。参数可以分别传入 x, y, radius，也可以作为元组 (x, y, radius) 一起传递。
+在图像上绘制一个圆形。参数可以分别传入x, y, radius，也可以作为元组(x, y, radius)一起传递。
 
 【参数】
 
-- color：表示颜色的RGB888元组，适用于灰度或 RGB565 图像，默认为白色。对于灰度图像，还可以传递像素值（范围 0-255）；对于 RGB565 图像，可以传递字节翻转的 RGB565 值。
-- thickness：控制圆形边框的像素宽度，默认为 1。
-- fill：设置为 True 时，将填充圆形内部，默认为 False。
+- color：表示颜色的RGB888元组，适用于灰度或RGB565图像，默认为白色。对于灰度图像，还可以传递像素值（范围0-255）；对于RGB565图像，可以传递字节翻转的RGB565值。
+- thickness：控制圆形边框的像素宽度，默认为1。
+- fill：设置为True时，将填充圆形内部，默认为False。
 
 【返回值】
 
 该方法返回图像对象，允许通过链式调用其他方法。
 
-注意：不支持压缩图像和 Bayer 格式图像。
+注意：不支持压缩图像和Bayer格式图像。
 
 #### draw_ellipse
 
@@ -107,19 +107,19 @@ image.draw_circle(x, y, radius[, color[, thickness=1[, fill=False]]])
 image.draw_ellipse(cx, cy, rx, ry, rotation[, color[, thickness=1[, fill=False]]])
 ```
 
-在图像上绘制椭圆。参数可以分别传入 cx, cy, rx, ry, rotation，也可以作为元组 (cx, cy, rx, ry, rotation)一起传递。
+在图像上绘制椭圆。参数可以分别传入cx,cy,rx,ry,rotation，也可以作为元组(cx, cy, rx, ry, rotation)一起传递。
 
 【参数】
 
-- color：表示颜色的RGB888元组，适用于灰度或 RGB565 图像，默认为白色。对于灰度图像，还可以传递像素值（范围 0-255）；对于 RGB565 图像，可以传递字节翻转的 RGB565 值。
-- thickness：控制椭圆边框的像素宽度，默认为 1。
-- fill：设置为 True 时，将填充椭圆内部，默认为 False。
+- color：表示颜色的RGB888元组，适用于灰度或RGB565图像，默认为白色。对于灰度图像，还可以传递像素值（范围 0-255）；对于RGB565图像，可以传递字节翻转的RGB565值。
+- thickness：控制椭圆边框的像素宽度，默认为1。
+- fill：设置为True时，将填充椭圆内部，默认为False。
 
 【返回值】
 
 该方法返回图像对象，允许通过链式调用其他方法。
 
-注意：不支持压缩图像和 Bayer 格式图像。
+注意：不支持压缩图像和Bayer格式图像。
 
 #### draw_cross
 
@@ -127,19 +127,19 @@ image.draw_ellipse(cx, cy, rx, ry, rotation[, color[, thickness=1[, fill=False]]
 image.draw_cross(x, y[, color[, size=5[, thickness=1]]])
 ```
 
-在图像上绘制一个十字标记。参数可以分别传入 x, y，也可以作为元组 (x, y) 一起传递。
+在图像上绘制一个十字标记。参数可以分别传入x, y，也可以作为元组(x, y)一起传递。
 
 【参数】
 
-- color：表示颜色的RGB888元组，适用于灰度或 RGB565 图像，默认为白色。对于灰度图像，还可以传递像素值（范围 0-255）；对于 RGB565 图像，可以传递字节翻转的 RGB565 值。
-- size：控制十字标记的大小，默认为 5。
-- thickness：控制十字线条的像素宽度，默认为 1。
+- color：表示颜色的RGB888元组，适用于灰度或RGB565图像，默认为白色。对于灰度图像，还可以传递像素值（范围0-255）；对于RGB565图像，可以传递字节翻转的RGB565值。
+- size：控制十字标记的大小，默认为5。
+- thickness：控制十字线条的像素宽度，默认为1。
 
 【返回值】
 
 该方法返回图像对象，允许通过链式调用其他方法。
 
-注意：不支持压缩图像和 Bayer 格式图像。
+注意：不支持压缩图像和Bayer格式图像。
 
 #### draw_arrow
 
@@ -147,18 +147,18 @@ image.draw_cross(x, y[, color[, size=5[, thickness=1]]])
 image.draw_arrow(x0, y0, x1, y1[, color[, thickness=1]])
 ```
 
-在图像上绘制从 (x0, y0) 到 (x1, y1)的箭头。参数可以分别传入 x0, y0, x1, y1，也可以作为元组 (x0, y0, x1, y1)一起传递。
+在图像上绘制从(x0, y0)到(x1, y1)的箭头。参数可以分别传入x0,y0,x1,y1，也可以作为元组(x0, y0, x1, y1)一起传递。
 
 【参数】
 
-- color：表示颜色的RGB888元组，适用于灰度或 RGB565 图像，默认为白色。对于灰度图像，还可以传递像素值（范围 0-255）；对于 RGB565 图像，可以传递字节翻转的 RGB565 值。
-- thickness：控制箭头线条的像素宽度，默认为 1。
+- color：表示颜色的RGB888元组，适用于灰度或RGB565图像，默认为白色。对于灰度图像，还可以传递像素值（范围0-255）；对于RGB565图像，可以传递字节翻转的RGB565值。
+- thickness：控制箭头线条的像素宽度，默认为1。
 
 【返回值】
 
 该方法返回图像对象，允许通过链式调用其他方法。
 
-注意：不支持压缩图像和 Bayer 格式图像。
+注意：不支持压缩图像和Bayer格式图像。
 
 #### draw_string
 
@@ -166,22 +166,22 @@ image.draw_arrow(x0, y0, x1, y1[, color[, thickness=1]])
 image.draw_string(x, y, text[, color[, scale=1[, x_spacing=0[, y_spacing=0[, mono_space=True]]]]])
 ```
 
-从图像的 (x, y) 位置开始绘制8x10大小的文本。参数可以分别传入x, y，也可以作为元组 (x, y) 一起传递。
+从图像的(x, y)位置开始绘制8x10大小的文本。参数可以分别传入x, y，也可以作为元组(x, y)一起传递。
 
 【参数】
 
-- text：要绘制的字符串，换行符 \n、\r 或 \r\n用于将光标移动到下一行。
-- color：表示颜色的RGB888元组，适用于灰度或 RGB565 图像，默认为白色。对于灰度图像，还可以传递像素值（范围 0-255）；对于 RGB565 图像，可以传递字节翻转的 RGB565 值。
-- scale：控制文本的缩放比例，默认为 1。只能为整数。
+- text：要绘制的字符串，换行符\n、\r或\r\n用于将光标移动到下一行。
+- color：表示颜色的RGB888元组，适用于灰度或RGB565图像，默认为白色。对于灰度图像，还可以传递像素值（范围 0-255）；对于RGB565图像，可以传递字节翻转的RGB565值。
+- scale：控制文本的缩放比例，默认为1。只能为整数。
 - x_spacing：调整字符之间的水平间距。正值表示增加间距，负值表示减少。
 - y_spacing：调整行之间的垂直间距。正值表示增加间距，负值表示减少。
-- mono_space：默认为True，使字符具有固定宽度。设置为False 时，字符间距将根据字符宽度动态调整。
+- mono_space：默认为True，使字符具有固定宽度。设置为False时，字符间距将根据字符宽度动态调整。
 
 【返回值】
 
 该方法返回图像对象，允许通过链式调用其他方法。
 
-注意：不支持压缩图像和 Bayer 格式图像。
+注意：不支持压缩图像和Bayer格式图像。
 
 #### draw_string_advanced
 
@@ -199,7 +199,7 @@ image.draw_string_advanced(x, y, char_size, str, [color, font])
 
 该方法返回图像对象，允许通过链式调用其他方法。
 
-注意：不支持压缩图像和 Bayer 格式图像。
+注意：不支持压缩图像和Bayer格式图像。
 
 更多用法请阅读官方API手册：
 
@@ -213,12 +213,12 @@ https://developer.canaan-creative.com/k230_canmv/dev/zh/api/openmv/image.html#im
 
 ### 硬件资源
 
-1. 本章实验内容，主要讲解 image 模块的使用，无需关注硬件资源。  
+1. 本章实验内容，主要讲解image模块的使用，无需关注硬件资源。  
 
 
 ### 原理图
 
-本章实验内容，主要讲解 image 模块的使用，无需关注原理图。  
+本章实验内容，主要讲解image模块的使用，无需关注原理图。  
 
 ## 实验代码
 

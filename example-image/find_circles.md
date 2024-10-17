@@ -1,13 +1,13 @@
 ---
-title: '线段检测实验'
-sidebar_position: 4
+title: '圆形检测实验'
+sidebar_position: 5
 ---
 
-# 线段检测实验
+# 圆形检测实验
 
 ## 前言
 
-在上一章节中，已经了解了如何在CanMV下使用image模块实现直线检测的方法，本章将通过线段检测实验，介绍如何使用CanMV的find_line_segments()方法实现线段检测功能。在本实验中，我们将摄像头捕获的图像进行处理，查找图像中所有物体的线段，并将结果绘制并显示到显示器上。通过本章的学习，读者将学习到如何在CanMV下使用find_line_segments()方法实现线段检测的功能。
+在上一章节中，已经了解了如何在CanMV下使用image模块实现线段检测的方法，本章将通过圆形检测实验，介绍如何使用CanMV的find_circles()方法实现圆形检测功能。在本实验中，我们将摄像头捕获的图像进行处理，查找图像中所有的圆形，并将结果绘制并显示到显示器上。通过本章的学习，读者将学习到如何在CanMV下使用find_circles()方法实现圆形检测的功能。
 
 ## Image模块介绍
 
@@ -39,23 +39,27 @@ sidebar_position: 4
 
 ### API描述
 
-‌Python中的Image模块是一个强大的图像处理工具，它提供了一系列函数和方法，可以用于图像元素绘制、图像滤波、图像特征检测、色块追踪、图像对比和码识别等。由于image模块功能强大，需要介绍的内容也比较多，因此本章仅介绍image模块中find_line_segments函数的使用。
+‌Python中的Image模块是一个强大的图像处理工具，它提供了一系列函数和方法，可以用于图像元素绘制、图像滤波、图像特征检测、色块追踪、图像对比和码识别等。由于image模块功能强大，需要介绍的内容也比较多，因此本章仅介绍image模块中find_circles()方法的使用。
 
-#### find_line_segments
+#### find_circles
 
 ```python
-image.find_line_segments([roi[, merge_distance=0[, max_theta_difference=15]]])
+image.find_circles([roi[, x_stride=2[, y_stride=1[, threshold=2000[, x_margin=10[, y_margin=10[, r_margin=10]]]]]]])
 ```
 
-该函数使用霍夫变换查找图像中的线段，并返回一个image.line对象的列表。
+该函数使用霍夫变换在图像中查找圆形，并返回一个image.circle对象的列表。
 
 【参数】
 
 - roi：为感兴趣区域的矩形元组(x, y, w, h)。若未指定，ROI默认为整个图像的矩形。操作仅限于该区域内的像素。
-- merge_distance：指定两条线段之间的最大像素距离，若小于该值则合并为一条线段。
-- max_theta_difference：为需合并的两条线段之间的最大角度差。
+- x_stride：为霍夫变换过程中需要跳过的x像素数量。如果已知圆较大，可增加x_stride。
+- y_stride：为霍夫变换过程中需要跳过的y像素数量。如果已知圆较大，可增加y_stride。
+- threshold：控制检测到的圆的大小，仅返回大于或等于该阈值的圆。合适的阈值取决于图像内容。请注意，圆的大小（magnitude）是构成圆的所有索贝尔滤波像素大小的总和。
+- x_margin：为对x坐标进行合并时允许的最大像素偏差。
+- y_margin：为对y坐标进行合并时允许的最大像素偏差。
+- r_margin：为对半径进行合并时允许的最大像素偏差。
 
-该方法使用LSD库（OpenCV亦采用）来查找图像中的线段。虽然速度较慢，但准确性高，且线段不会出现跳跃现象。
+该方法通过在图像上应用索贝尔滤波器，并利用其幅值和梯度响应执行霍夫变换。无需对图像进行任何预处理，尽管图像的清理和过滤将会产生更为稳定的结果。
 
 注意：此功能不支持压缩图像和Bayer图像。
 
@@ -67,7 +71,7 @@ https://developer.canaan-creative.com/k230_canmv/dev/zh/api/openmv/image.html
 
 ### 例程功能
 
-1. 获取摄像头输出的图像，并使用image模块的find_line_segments()方法查找图像上所有线段并绘制出来，最后将图像显示在LCD上。
+1. 获取摄像头输出的图像，并使用image模块的find_circles()方法查找图像上所有的圆形并绘制出来，最后将图像显示在LCD上。
 
 ### 硬件资源
 
@@ -82,7 +86,6 @@ https://developer.canaan-creative.com/k230_canmv/dev/zh/api/openmv/image.html
 
 ``` python
 import time, os, sys
-
 from media.sensor import *  #导入sensor模块，使用摄像头相关接口
 from media.display import * #导入display模块，使用display相关接口
 from media.media import *   #导入media模块，使用meida相关接口
@@ -95,7 +98,7 @@ try:
     sensor.set_pixformat(Sensor.RGB565) #设置输出图像格式，默认通道0
 
     # 初始化LCD显示器，同时IDE缓冲区输出图像,显示的数据来自于sensor通道0。
-    Display.init(Display.ST7701, width = 800, height = 480, fps=90, to_ide = True)
+    Display.init(Display.ST7701, width = 800, height = 480, fps=60, to_ide = True)
     MediaManager.init() #初始化media资源管理器
     sensor.run() #启动sensor
     clock = time.clock() # 构造clock对象
@@ -104,11 +107,13 @@ try:
         os.exitpoint() #检测IDE中断
         clock.tick()  #记录开始时间（ms）
         img = sensor.snapshot() #从通道0捕获一张图
+        for c in img.find_circles(threshold = 3500, x_margin = 10, y_margin= 10,
+                                  r_margin = 10,r_min = 6, r_max = 120, r_step = 2):
+            #画红色圆做指示
+            img.draw_circle(c.x(), c.y(), c.r(), color = (255, 0, 0),thickness=2)
 
-        for l in img.find_line_segments(merge_distance = 2, max_theta_diff = 15):
-            img.draw_line(l.line(), color = (255, 0, 0), thickness=2)
-            print(l)
-
+            print(c) #打印圆形的信息
+        # 显示图片
         Display.show_image(img, x=round((800-sensor.width())/2),y=round((480-sensor.height())/2))
         print(clock.fps()) #打印FPS
 
@@ -129,15 +134,15 @@ finally:
     MediaManager.deinit()
 ```
 
-可以看到一开始是先初始化了LCD和摄像头。接着在一个循环中不断地获取摄像头输出的图像，因为获取到的图像就是Image对象，因此可以直接调用image模块为Image对象提供的各种方法，因为该方法使用的是LSD库，所以速度比较慢，我们需要降低图像分辨率以提高识别速度，然后将图像里所有的线段绘制出来，最后在LCD显示处理好后的图像。
+可以看到一开始是先初始化了LCD和摄像头。接着在一个循环中不断地获取摄像头输出的图像，因为获取到的图像就是Image对象，因此可以直接调用image模块为Image对象提供的各种方法，然后将图像里所有的圆形绘制出来，最后在LCD显示处理好后的图像。
 
 ## 运行验证
 
 将DNK230D开发板连接CanMV IDE，并点击CanMV IDE上的“开始(运行脚本)”按钮后，可以看到LCD上实时地显示这摄像头采集到的画面，如下图所示：
 
-![01](./img/05.png)
+![01](./img/06.png)
 
 也可以在CanMV IDE看到摄像头采集的画面，如下图所示：
 
-![01](./img/05.png)
+![01](./img/06.png)
 

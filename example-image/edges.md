@@ -7,13 +7,13 @@ sidebar_position: 2
 
 ## 前言
 
-在前面的章节中，已经了解了如何在CanMV下使用image模块进行元素绘制的方法，本章将通过边缘检测实验，介绍如何通过CanMV的find_edges函数实现边缘检测功能，将摄像头捕获的图像进行处理，将物体的边缘绘制并显示到显示器上。通过本章的学习，读者将学习到CanMV下find_edges边缘检测函数的使用。
+在前面的章节中，已经了解了如何在CanMV下使用image模块实现元素绘制的方法，本章将通过边缘检测实验，介绍如何使用CanMV的find_edges()方法实现物体的边缘检测功能。在本实验中，我们将摄像头捕获的图像进行处理，查找图像中所有物体的边缘，并将结果绘制并显示到显示器上。通过本章的学习，读者将学习到如何在CanMV下使用find_edges()方法实现边缘检测的功能。
 
 ## Image模块介绍
 
 ### 概述
 
-`Image` 类是机器视觉处理中的基础对象。此类支持从Micropython GC、MMZ、系统堆、VB 区域等内存区域创建图像对象。此外，还可以通过引用外部内存直接创建图像（ALLOC_REF）。未使用的图像对象会在垃圾回收时自动释放，也可以手动释放内存。
+`Image` 类是机器视觉处理中的基础对象。此类支持从Micropython GC、MMZ、系统堆、VB区域等内存区域创建图像对象。此外，还可以通过引用外部内存直接创建图像（ALLOC_REF）。未使用的图像对象会在垃圾回收时自动释放，也可以手动释放内存。
 
 支持的图像格式如下：
 
@@ -31,7 +31,7 @@ sidebar_position: 2
 
 支持的内存分配区域：
 
-- **ALLOC_MPGC**：Micropython 管理的内存
+- **ALLOC_MPGC**：Micropython管理的内存
 - **ALLOC_HEAP**：系统堆内存
 - **ALLOC_MMZ**：多媒体内存
 - **ALLOC_VB**：视频缓冲区
@@ -54,9 +54,9 @@ image.find_edges(edge_type[, threshold])
 - edge：可选值包括：
   1. `image.EDGE_SIMPLE` - 简单的阈值高通滤波算法
 
-  2. `image.EDGE_CANNY` - Canny 边缘检测算法
+  2. `image.EDGE_CANNY` - Canny边缘检测算法
 
-- threshold：是包含低阈值和高阈值的二元元组。您可以通过调整该值来控制边缘质量，默认设置为 (100, 200)。
+- threshold：是包含低阈值和高阈值的二元元组。您可以通过调整该值来控制边缘质量，默认设置为(100, 200)。
 
 注意： 此方法仅支持灰度图像。
 
@@ -72,12 +72,12 @@ https://developer.canaan-creative.com/k230_canmv/dev/zh/api/openmv/image.html
 
 ### 硬件资源
 
-1. 本章实验内容，主要讲解 image 模块的使用，无需关注硬件资源。
+1. 本章实验内容，主要讲解image模块的使用，无需关注硬件资源。
 
 
 ### 原理图
 
-本章实验内容，主要讲解 image 模块的使用，无需关注原理图。
+本章实验内容，主要讲解image模块的使用，无需关注原理图。
 
 ## 实验代码
 
