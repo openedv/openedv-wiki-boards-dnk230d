@@ -1,6 +1,6 @@
 ---
 title: '二维码识别实验'
-sidebar_position: 12
+sidebar_position: 13
 ---
 
 # 二维码识别实验

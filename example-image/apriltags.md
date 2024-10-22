@@ -1,6 +1,6 @@
 ---
 title: 'AprilTags码识别实验'
-sidebar_position: 14
+sidebar_position: 15
 ---
 
 # AprilTags码识别实验

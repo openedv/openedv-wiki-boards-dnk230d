@@ -1,6 +1,6 @@
 ---
 title: '条形码识别实验'
-sidebar_position: 13
+sidebar_position: 14
 ---
 
 # 条形码识别实验
