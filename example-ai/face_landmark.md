@@ -11,7 +11,7 @@ sidebar_position: 2
 
 ## AI开发框架介绍
 
-有关AI开发框架的介绍，请见[CanMV AI开发框架](development_framework.md)
+为了简化AI开发流程并降低AI开发难度，CanMV官方针对K230D专门搭建了AI开发框架，有关AI开发框架的介绍，请见[CanMV AI开发框架](development_framework.md)
 
 ## 硬件设计
 
