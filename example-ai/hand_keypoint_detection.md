@@ -1,13 +1,13 @@
 ---
-title: '手势识别实验'
-sidebar_position: 9
+title: '手掌关键点检测实验'
+sidebar_position: 10
 ---
 
-# 手势识别实验
+# 手掌关键点检测实验
 
 ## 前言
 
-在上一章节中，我们已经学习了如何在CanMV下使用CanMV AI视觉开发框架和MicroPython编程方法实现手掌检测的功能，本章将通过手势识别实验，介绍如何使用CanMV AI视觉开发框架和MicroPython编程完成手掌检测并进一步使用手势分类模型实现手势识别的功能，然后将识别的手势信息绘制出来。在本实验中，我们首先采集摄像头捕获的图像，然后经过图像预处理、模型推理和输出处理结果等一系列步骤，完成手掌检测的功能，然后在检测到手掌的区域，进一步使用手势分类的分类模型进行分类，从而将对应的手势解析出来，最后，将识别结果绘制并显示到显示器上。通过本章的学习，读者将掌握如何在CanMV下使用CanMV AI视觉开发框架和MicroPython编程方法实现手势识别功能。
+在上一章节中，我们已经学习了如何在CanMV下使用CanMV AI视觉开发框架和MicroPython编程方法实现手势识别的功能，本章将通过手掌关键点检测实验，介绍如何使用CanMV AI视觉开发框架和MicroPython编程完成手掌检测，并进一步使用手掌关键点检测模型将检测到的每一个手掌进行关键点回归得到21个手掌骨骼关键点位置，然后用不同颜色的线条连接21个关键点并绘制出来。在本实验中，我们首先采集摄像头捕获的图像，然后经过图像预处理、模型推理和输出处理结果等一系列步骤，完成手掌检测的功能，然后在检测到手掌的区域，进一步使用手掌关键点检测模型进行推理，从而得到每个手掌的21个手掌骨骼关键点位置，最后，将21个手掌关键点用不同颜色线段绘制并显示到显示器上。通过本章的学习，读者将掌握如何在CanMV下使用CanMV AI视觉开发框架和MicroPython编程方法实现手掌关键点检测功能。
 
 ## AI开发框架介绍
 
@@ -17,7 +17,7 @@ sidebar_position: 9
 
 ### 例程功能
 
-1. 获取摄像头输出的图像，然后将图像输入到CanMV K230D的AI模型进行推理。本实验使用了两个AI模型：一个是上一章节使用到的手掌检测模型，另一个是用于手势识别的手势分类模型。手掌检测模型负责找出图像中的手掌区域，然后将该区域传递给分类模型进行手势分类。手势分类模型能将输入模型的手掌图片对应的手势进行分类，该模型支持三种手势，分别是"five"、"gun"、"yeah"，分类完成后输出相似度最高的手势信息，并将分类结果绘制到图像上。最后，将处理后的图像显示在LCD上。
+1. 获取摄像头输出的图像，然后将图像输入到CanMV K230D的AI模型进行推理。本实验使用了两个AI模型：一个是前面章节使用到的手掌检测模型，另一个是手掌关键点检测模型。手掌检测模型负责找出图像中的手掌区域，然后将该区域传递给手掌关键点检测模型进行手掌关键点位置的推理。手掌关键点检测模型能将输入模型的手掌图进行检测，然后对检测到的每一个手掌进行关键点回归得到21个手掌骨骼关键点位置，接着在图像上用不同颜色的线段将关键点和关键点的连线标识出来。最后，将处理后的图像显示在LCD上。
 
 ### 硬件资源
 
@@ -50,10 +50,11 @@ import sys
 
 # 自定义手掌检测任务类
 class HandDetApp(AIBase):
-    def __init__(self,kmodel_path,model_input_size,anchors,confidence_threshold=0.2,nms_threshold=0.5,nms_option=False, strides=[8,16,32],rgb888p_size=[1920,1080],display_size=[1920,1080],debug_mode=0):
+    def __init__(self,kmodel_path,labels,model_input_size,anchors,confidence_threshold=0.2,nms_threshold=0.5,nms_option=False, strides=[8,16,32],rgb888p_size=[1920,1080],display_size=[1920,1080],debug_mode=0):
         super().__init__(kmodel_path,model_input_size,rgb888p_size,debug_mode)
         # kmodel路径
         self.kmodel_path=kmodel_path
+        self.labels=labels
         # 检测模型输入分辨率
         self.model_input_size=model_input_size
         # 置信度阈值
@@ -77,7 +78,7 @@ class HandDetApp(AIBase):
         # 设置ai2d的输入输出的格式和数据类型
         self.ai2d.set_ai2d_dtype(nn.ai2d_format.NCHW_FMT,nn.ai2d_format.NCHW_FMT,np.uint8, np.uint8)
 
-    # 配置预处理操作，这里使用了pad和resize，Ai2d支持crop/shift/pad/resize/affine，具体代码请打开/sdcard/app/libs/AI2D.py查看
+    # 配置预处理操作，这里使用了pad和resize，Ai2d支持crop/shift/pad/resize/affine，具体代码请打开/sdcard/libs/AI2D.py查看
     def config_preprocess(self,input_image_size=None):
         with ScopedTiming("set preprocess config",self.debug_mode > 0):
             # 初始化ai2d预处理配置，默认为sensor给到AI的尺寸，可以通过设置input_image_size自行修改输入尺寸
@@ -93,7 +94,7 @@ class HandDetApp(AIBase):
     # 自定义当前任务的后处理，用于处理模型输出结果，这里使用了aicube库的anchorbasedet_post_process接口
     def postprocess(self,results):
         with ScopedTiming("postprocess",self.debug_mode > 0):
-            dets = aicube.anchorbasedet_post_process(results[0], results[1], results[2], self.model_input_size, self.rgb888p_size, self.strides,1, self.confidence_threshold, self.nms_threshold, self.anchors, self.nms_option)
+            dets = aicube.anchorbasedet_post_process(results[0], results[1], results[2], self.model_input_size, self.rgb888p_size, self.strides, len(self.labels), self.confidence_threshold, self.nms_threshold, self.anchors, self.nms_option)
             # 返回手掌检测结果
             return dets
 
@@ -123,15 +124,14 @@ class HandDetApp(AIBase):
         right = int(round(dw + 0.1))
         return top, bottom, left, right
 
-# 自定义手势识别任务类
-class HandRecognitionApp(AIBase):
-    def __init__(self,kmodel_path,model_input_size,labels,rgb888p_size=[1920,1080],display_size=[1920,1080],debug_mode=0):
+# 自定义手势关键点检测任务类
+class HandKPDetApp(AIBase):
+    def __init__(self,kmodel_path,model_input_size,rgb888p_size=[1920,1080],display_size=[1920,1080],debug_mode=0):
         super().__init__(kmodel_path,model_input_size,rgb888p_size,debug_mode)
         # kmodel路径
         self.kmodel_path=kmodel_path
         # 检测模型输入分辨率
         self.model_input_size=model_input_size
-        self.labels=labels
         # sensor给到AI的图像分辨率，宽16字节对齐
         self.rgb888p_size=[ALIGN_UP(rgb888p_size[0],16),rgb888p_size[1]]
         # 视频输出VO分辨率，宽16字节对齐
@@ -144,7 +144,7 @@ class HandRecognitionApp(AIBase):
         # 设置ai2d的输入输出的格式和数据类型
         self.ai2d.set_ai2d_dtype(nn.ai2d_format.NCHW_FMT,nn.ai2d_format.NCHW_FMT,np.uint8, np.uint8)
 
-    # 配置预处理操作，这里使用了crop和resize，Ai2d支持crop/shift/pad/resize/affine，具体代码请打开/sdcard/app/libs/AI2D.py查看
+    # 配置预处理操作，这里使用了crop和resize，Ai2d支持crop/shift/pad/resize/affine，具体代码请打开/sdcard/libs/AI2D.py查看
     def config_preprocess(self,det,input_image_size=None):
         with ScopedTiming("set preprocess config",self.debug_mode > 0):
             ai2d_input_size=input_image_size if input_image_size else self.rgb888p_size
@@ -156,11 +156,13 @@ class HandRecognitionApp(AIBase):
     # 自定义后处理，results是模型输出的array列表
     def postprocess(self,results):
         with ScopedTiming("postprocess",self.debug_mode > 0):
-            result=results[0].reshape(results[0].shape[0]*results[0].shape[1])
-            x_softmax = self.softmax(result)
-            idx = np.argmax(x_softmax)
-            text = " " + self.labels[idx] + ": " + str(round(x_softmax[idx],2))
-            return text
+            results=results[0].reshape(results[0].shape[0]*results[0].shape[1])
+            results_show = np.zeros(results.shape,dtype=np.int16)
+            results_show[0::2] = results[0::2] * self.crop_params[3] + self.crop_params[0]
+            results_show[1::2] = results[1::2] * self.crop_params[2] + self.crop_params[1]
+            results_show[0::2] = results_show[0::2] * (self.display_size[0] / self.rgb888p_size[0])
+            results_show[1::2] = results_show[1::2] * (self.display_size[1] / self.rgb888p_size[1])
+            return results_show
 
     # 计算crop参数
     def get_crop_param(self,det_box):
@@ -182,13 +184,8 @@ class HandRecognitionApp(AIBase):
         h_kp = int(y2_kp - y1_kp + 1)
         return [x1_kp, y1_kp, w_kp, h_kp]
 
-    # softmax实现
-    def softmax(self,x):
-        x -= np.max(x)
-        x = np.exp(x) / np.sum(np.exp(x))
-        return x
-
-class HandRecognition:
+# 手掌关键点检测任务
+class HandKeyPointDet:
     def __init__(self,hand_det_kmodel,hand_kp_kmodel,det_input_size,kp_input_size,labels,anchors,confidence_threshold=0.25,nms_threshold=0.3,nms_option=False,strides=[8,16,32],rgb888p_size=[1280,720],display_size=[1920,1080],debug_mode=0):
         # 手掌检测模型路径
         self.hand_det_kmodel=hand_det_kmodel
@@ -207,7 +204,7 @@ class HandRecognition:
         self.nms_threshold=nms_threshold
         # nms选项
         self.nms_option=nms_option
-        # 特征图针对输出的下采样倍数
+        # 特征图对于输入的下采样倍数
         self.strides=strides
         # sensor给到AI的图像分辨率，宽16字节对齐
         self.rgb888p_size=[ALIGN_UP(rgb888p_size[0],16),rgb888p_size[1]]
@@ -215,38 +212,39 @@ class HandRecognition:
         self.display_size=[ALIGN_UP(display_size[0],16),display_size[1]]
         # debug_mode模式
         self.debug_mode=debug_mode
-        self.hand_det=HandDetApp(self.hand_det_kmodel,model_input_size=self.det_input_size,anchors=self.anchors,confidence_threshold=self.confidence_threshold,nms_threshold=self.nms_threshold,nms_option=self.nms_option,strides=self.strides,rgb888p_size=self.rgb888p_size,display_size=self.display_size,debug_mode=0)
-        self.hand_rec=HandRecognitionApp(self.hand_kp_kmodel,model_input_size=self.kp_input_size,labels=self.labels,rgb888p_size=self.rgb888p_size,display_size=self.display_size)
+        self.hand_det=HandDetApp(self.hand_det_kmodel,self.labels,model_input_size=self.det_input_size,anchors=self.anchors,confidence_threshold=self.confidence_threshold,nms_threshold=self.nms_threshold,nms_option=self.nms_option,strides=self.strides,rgb888p_size=self.rgb888p_size,display_size=self.display_size,debug_mode=0)
+        self.hand_kp=HandKPDetApp(self.hand_kp_kmodel,model_input_size=self.kp_input_size,rgb888p_size=self.rgb888p_size,display_size=self.display_size)
         self.hand_det.config_preprocess()
 
     # run函数
     def run(self,input_np):
-        # 执行手掌检测
+        # 手掌检测
         det_boxes=self.hand_det.run(input_np)
-        hand_rec_res=[]
-        hand_det_res=[]
+        hand_res=[]
+        boxes=[]
         for det_box in det_boxes:
-            # 对检测到的每一个手掌执行手势识别
+            # 对检测到的每个手掌执行手势关键点识别
             x1, y1, x2, y2 = det_box[2],det_box[3],det_box[4],det_box[5]
             w,h= int(x2 - x1),int(y2 - y1)
+            # 丢弃不合理的框
             if (h<(0.1*self.rgb888p_size[1])):
                 continue
             if (w<(0.25*self.rgb888p_size[0]) and ((x1<(0.03*self.rgb888p_size[0])) or (x2>(0.97*self.rgb888p_size[0])))):
                 continue
             if (w<(0.15*self.rgb888p_size[0]) and ((x1<(0.01*self.rgb888p_size[0])) or (x2>(0.99*self.rgb888p_size[0])))):
                 continue
-            self.hand_rec.config_preprocess(det_box)
-            text=self.hand_rec.run(input_np)
-            hand_det_res.append(det_box)
-            hand_rec_res.append(text)
-        return hand_det_res,hand_rec_res
+            self.hand_kp.config_preprocess(det_box)
+            results_show=self.hand_kp.run(input_np)
+            boxes.append(det_box)
+            hand_res.append(results_show)
+        return boxes,hand_res
 
-    # 绘制效果，绘制识别结果和检测框
-    def draw_result(self,pl,hand_det_res,hand_rec_res):
+    # 绘制效果，绘制手掌关键点、检测框
+    def draw_result(self,pl,dets,hand_res):
         pl.osd_img.clear()
-        if hand_det_res:
-            for k in range(len(hand_det_res)):
-                det_box=hand_det_res[k]
+        if dets:
+            for k in range(len(dets)):
+                det_box=dets[k]
                 x1, y1, x2, y2 = det_box[2],det_box[3],det_box[4],det_box[5]
                 w,h= int(x2 - x1),int(y2 - y1)
                 w_det = int(float(x2 - x1) * self.display_size[0] // self.rgb888p_size[0])
@@ -254,7 +252,27 @@ class HandRecognition:
                 x_det = int(x1*self.display_size[0] // self.rgb888p_size[0])
                 y_det = int(y1*self.display_size[1] // self.rgb888p_size[1])
                 pl.osd_img.draw_rectangle(x_det, y_det, w_det, h_det, color=(255, 0, 255, 0), thickness = 2)
-                pl.osd_img.draw_string_advanced( x_det, y_det-50, 32,hand_rec_res[k], color=(255,0, 255, 0))
+
+                results_show=hand_res[k]
+                for i in range(len(results_show)/2):
+                    pl.osd_img.draw_circle(results_show[i*2], results_show[i*2+1], 1, color=(255, 0, 255, 0),fill=False)
+                for i in range(5):
+                    j = i*8
+                    if i==0:
+                        R = 255; G = 0; B = 0
+                    if i==1:
+                        R = 255; G = 0; B = 255
+                    if i==2:
+                        R = 255; G = 255; B = 0
+                    if i==3:
+                        R = 0; G = 255; B = 0
+                    if i==4:
+                        R = 0; G = 0; B = 255
+                    pl.osd_img.draw_line(results_show[0], results_show[1], results_show[j+2], results_show[j+3], color=(255,R,G,B), thickness = 3)
+                    pl.osd_img.draw_line(results_show[j+2], results_show[j+3], results_show[j+4], results_show[j+5], color=(255,R,G,B), thickness = 3)
+                    pl.osd_img.draw_line(results_show[j+4], results_show[j+5], results_show[j+6], results_show[j+7], color=(255,R,G,B), thickness = 3)
+                    pl.osd_img.draw_line(results_show[j+6], results_show[j+7], results_show[j+8], results_show[j+9], color=(255,R,G,B), thickness = 3)
+
 
 
 if __name__=="__main__":
@@ -263,38 +281,38 @@ if __name__=="__main__":
     display_size=[640,480]
     # 手掌检测模型路径
     hand_det_kmodel_path="/sdcard/examples/kmodel/hand_det.kmodel"
-    # 手势识别模型路径
-    hand_rec_kmodel_path="/sdcard/examples/kmodel/hand_reco.kmodel"
+    # 手部关键点模型路径
+    hand_kp_kmodel_path="/sdcard/examples/kmodel/handkp_det.kmodel"
     # 其它参数
     anchors_path="/sdcard/examples/utils/prior_data_320.bin"
     rgb888p_size=[1280,960]
     hand_det_input_size=[512,512]
-    hand_rec_input_size=[224,224]
+    hand_kp_input_size=[256,256]
     confidence_threshold=0.2
     nms_threshold=0.5
-    labels=["gun","other","yeah","five"]
+    labels=["hand"]
     anchors = [26,27, 53,52, 75,71, 80,99, 106,82, 99,134, 140,113, 161,172, 245,276]
 
     # 初始化PipeLine，只关注传给AI的图像分辨率，显示的分辨率
     sensor = Sensor(width=1280, height=960) # 构建摄像头对象
     pl = PipeLine(rgb888p_size=rgb888p_size, display_size=display_size, display_mode=display_mode)
     pl.create(sensor=sensor)  # 创建PipeLine实例
-    hr=HandRecognition(hand_det_kmodel_path,hand_rec_kmodel_path,det_input_size=hand_det_input_size,kp_input_size=hand_rec_input_size,labels=labels,anchors=anchors,confidence_threshold=confidence_threshold,nms_threshold=nms_threshold,nms_option=False,strides=[8,16,32],rgb888p_size=rgb888p_size,display_size=display_size)
+    hkd=HandKeyPointDet(hand_det_kmodel_path,hand_kp_kmodel_path,det_input_size=hand_det_input_size,kp_input_size=hand_kp_input_size,labels=labels,anchors=anchors,confidence_threshold=confidence_threshold,nms_threshold=nms_threshold,nms_option=False,strides=[8,16,32],rgb888p_size=rgb888p_size,display_size=display_size)
     try:
         while True:
             os.exitpoint()
             with ScopedTiming("total",1):
-                img=pl.get_frame()                              # 获取当前帧
-                hand_det_res,hand_rec_res=hr.run(img)           # 推理当前帧
-#                print(hand_det_res,  hand_rec_res)              # 打印结果
-                hr.draw_result(pl,hand_det_res,hand_rec_res)    # 绘制推理结果
-                pl.show_image()                                 # 展示推理结果
+                img=pl.get_frame()                      # 获取当前帧
+                det_boxes,hand_res=hkd.run(img)         # 推理当前帧
+#                print(det_boxes, hand_res)              # 打印结果
+                hkd.draw_result(pl,det_boxes,hand_res)  # 绘制推理结果
+                pl.show_image()                         # 展示推理结果
                 gc.collect()
     except Exception as e:
         sys.print_exception(e)
     finally:
-        hr.hand_det.deinit()
-        hr.hand_rec.deinit()
+        hkd.hand_det.deinit()
+        hkd.hand_kp.deinit()
         pl.destroy()
 ```
 
@@ -302,37 +320,21 @@ if __name__=="__main__":
 
 接着是通过初始化PipeLine，这里主要初始化sensor和display模块，配置摄像头输出两路不同的格式和大小的图像，以及设置显示模式，完成创建PipeLine实例。
 
-然后调用自定义HandRecognition类构建手势识别的任务，HandRecognition类会通过调用HandDetApp类和HandRecognitionApp类完成对AIBase接口的初始化以及使用Ai2D接口的方法定义手掌检测模型和手势分类模型输入图像的预处理方法。
+然后调用自定义HandKeyPointDet类构建手掌关键点检测的任务，HandKeyPointDet类会通过调用HandDetApp类和HandKPDetApp类完成对AIBase接口的初始化以及使用Ai2D接口的方法定义手掌检测模型和手掌关键点检测模型输入图像的预处理方法。
 
-最后在一个循环中不断地获取摄像头输出的RGBP888格式的图像帧，然后依次将图像输入到手掌检测模型、手掌分类模型进行推理，然后将推理结果通过print打印，同时通过结果信息将手势信息绘制到图像上，并在LCD上显示图像。
+最后在一个循环中不断地获取摄像头输出的RGBP888格式的图像帧，然后依次将图像输入到手掌检测模型、手掌关键点检测模型进行推理，然后将推理结果通过print打印，同时根据结果信息用不同颜色线段将手掌和手掌的21个关键点绘制到图像上，并在LCD上显示图像。
 
 ## 运行验证
 
-手势识别支持以下三种手势，分别为"five"、"gun"、"yeah"，系统识别到其他手势将输出"other"，三种手势图如下所示：
+实验原图如下所示：
 
-![01](./img/25.png)
+![01](./img/22.png)
 
-将K230D BOX开发板连接CanMV IDE，点击CanMV IDE上的“开始(运行脚本)”按钮后，将摄像头对准手掌，让其采集到手掌图像，随后便能在LCD上看到摄像头输出的图像，同时图像中的手掌用矩形框进行标记，矩形框上方显示识别到的手势信息，有"gun","other","yeah","five"四种情况，如下图所示：  
+将K230D BOX开发板连接CanMV IDE，点击CanMV IDE上的“开始(运行脚本)”按钮后，将摄像头对准手掌，让其采集到手掌图像，随后，在LCD屏幕上可以看到摄像头输出的图像，其中，手掌会被一个矩形框标记出来，而矩形框内五个手指则会根据21个手掌骨骼的关键点，使用五种不同颜色的线条有序连接。如下图所示：  
 
-手势gun：
+![01](./img/31.png)
 
-![01](./img/29.png)
 
-手势five：
 
-![01](./img/27.png)
 
-手势yeah：
-
-![01](./img/28.png)
-
-其他手势统一为other：
-
-![01](./img/26.png)
-
-点击左下角“串行终端”，可以看到“串行终端”窗口中输出了一系列信息，如下图所示：
-
-![01](./img/30.png)
-
-可以看到，本章实验串口终端每次输出两个数组，第一个是手掌检测模型检测的手掌区域的数组，这个数组和前面检测模型的格式一样，这里不再介绍，另外一个二维数组中存在一个元素，该元素有两个数据，第一个是分类的标签，第二个是该标签的相似度，分类标签和分类模型有关，相似度通常是输入的图像经过分类模型推理获得相似度最高的一个分类。
 
