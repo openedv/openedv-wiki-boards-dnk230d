@@ -92,7 +92,7 @@ while True:
 
 ## 运行验证
 
-将DNK230D开发板连接CanMV IDE，并点击CanMV IDE上的“开始(运行脚本)”按钮后，此时，串行终端每隔1秒打印一次RTC时间，如下图所示：
+将K230D BOX开发板连接CanMV IDE，并点击CanMV IDE上的“开始(运行脚本)”按钮后，此时，串行终端每隔1秒打印一次RTC时间，如下图所示：
 
 ![01](./img/06.png)
 

@@ -81,7 +81,9 @@ https://developer.canaan-creative.com/k230_canmv/dev/zh/api/canmv_spec.html
 
 1. 独立按键
 
-   ​	KEY0按键 - IO2
+   ​	KEY0按键 - IO34
+
+   ​	KEY1按键 - IO35
 
 2. 扩展串口接口1
 
@@ -115,16 +117,16 @@ import time
 fpioa = FPIOA()
 
 # 为IO分配相应的硬件功能
-fpioa.set_function(2, FPIOA.GPIO2)
-fpioa.set_function(5, FPIOA.GPIO5)
+fpioa.set_function(34, FPIOA.GPIO34)
+fpioa.set_function(35, FPIOA.GPIO35)
 fpioa.set_function(40,FPIOA.UART1_TXD)
 fpioa.set_function(41,FPIOA.UART1_RXD)
 fpioa.set_function(44,FPIOA.UART2_TXD)
 fpioa.set_function(45,FPIOA.UART2_RXD)
 
 # 构造UART对象
-key0 = Pin(2, Pin.IN, pull=Pin.PULL_UP, drive=7)
-key1 = Pin(5, Pin.IN, pull=Pin.PULL_UP, drive=7)
+key0 = Pin(34, Pin.IN, pull=Pin.PULL_UP, drive=7)
+key1 = Pin(35, Pin.IN, pull=Pin.PULL_UP, drive=7)
 uart1 = UART(UART.UART1, baudrate=115200, bits=UART.EIGHTBITS, parity=UART.PARITY_NONE, stop=UART.STOPBITS_ONE)
 uart2 = UART(UART.UART2, baudrate=115200, bits=UART.EIGHTBITS, parity=UART.PARITY_NONE, stop=UART.STOPBITS_ONE)
 
@@ -146,12 +148,12 @@ while True:
 
     # UART接收数据
     data = uart1.read(128)
-    if data != b'':
+    if data != None:
         print("UART1 get data:", data.decode())
 
     # UART接收数据
     data = uart2.read(128)
-    if data != b'':
+    if data != None:
         print("UART2 get data:", data.decode())
 ```
 
@@ -163,7 +165,7 @@ while True:
 
 ## 运行验证
 
-将DNK230D开发板连接CanMV IDE，并点击CanMV IDE上的“开始(运行脚本)”按钮后，同时将板载的两个扩展串口接口通过线材按照要求进行相互连接。
+将K230D BOX开发板连接CanMV IDE，并点击CanMV IDE上的“开始(运行脚本)”按钮后，同时将板载的两个扩展串口接口通过线材按照要求进行相互连接。
 
 此时，若分别按下KEY0按键和KEY1按键，CanMV IDE软件的“串行中断”将依次输出UART2对象和UART1对象接收到的数据，如下图所示：	
 

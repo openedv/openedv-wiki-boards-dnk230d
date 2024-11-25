@@ -204,13 +204,13 @@ https://developer.canaan-creative.com/k230_canmv/dev/zh/api/image_video.html
 
 ### 原理图
 
-本章实验内容，需要使用到板载的摄像头接口，在正点原子DNK230D开发板上有两处MIPI摄像头接口位于正点原子CNK230DF核心板，该接口可以直接连接DNK230D开发板自带的GC2093摄像头模组使用，但需要特别注意的是，我们的例程默认是使用MIPI CSI0接口使用的，即CNK230DF核心板上的J2接口处（摄像头默认连接处）。
+本章实验内容，需要使用到板载的摄像头接口，在正点原子K230D BOX开发板上有两处MIPI摄像头接口位于正点原子CNK230DF核心板，该接口可以直接连接K230D BOX开发板自带的GC2093摄像头模组使用，但需要特别注意的是，我们的例程默认是使用MIPI CSI1接口使用的，即CNK230DF核心板上的J2接口处（摄像头默认连接处）。
 
-正点原子DNK230D开发板上的GC2093摄像头模块接口的连接原理图，如下图所示：  
+正点原子K230D BOX开发板上的GC2093摄像头模块接口的连接原理图，如下图所示：  
 
 ![01](./img/11.png)
 
-同时正点原子CNK230DF核心板也提供了MIPI CSI1摄像头接口，同时支持两路摄像头输入（K230D最多支持3路），MIPI摄像头接口的连接原理图，如下图所示：
+同时正点原子CNK230DF核心板也提供了MIPI CSI2摄像头接口，同时支持两路摄像头输入（K230D最多支持3路），MIPI摄像头接口的连接原理图，如下图所示：
 
 ![01](./img/12.png)
 
@@ -218,39 +218,29 @@ https://developer.canaan-creative.com/k230_canmv/dev/zh/api/image_video.html
 
 ``` python
 import time, os, sys
-
 from media.sensor import *  #导入sensor模块，使用摄像头相关接口
 from media.display import * #导入display模块，使用display相关接口
 from media.media import *   #导入media模块，使用meida相关接口
 
 
 try:
-    sensor = Sensor() #构建摄像头对象
+    sensor = Sensor(width=1280, height = 960) #构建摄像头对象
     sensor.reset() #复位和初始化摄像头
-    sensor.set_framesize(Sensor.FHD)      #设置帧大小FHD(1920x1080)，默认通道0
+
+    sensor.set_framesize(Sensor.VGA)      #设置帧大小VGA(640x480)，默认通道0
     sensor.set_pixformat(Sensor.YUV420SP) #设置输出图像格式，默认通道0
 
-    # bind sensor chn0 to display layer video 1
+    # 将通道0图像绑定到视频输出
     bind_info = sensor.bind_info()
-    Display.bind_layer(**bind_info, layer = Display.LAYER_VIDEO1)
-
-    # 设置其他通道输出格式
-    sensor.set_framesize(Sensor.VGA, chn = CAM_CHN_ID_1)   #输出640 * 480格式
-    sensor.set_pixformat(Sensor.RGB565, chn = CAM_CHN_ID_1) #设置输出图像格式，选择通道1
+    Display.bind_layer(**bind_info, layer=Display.LAYER_VIDEO1)
 
     #使用IDE缓冲区输出图像,显示尺寸和sensor配置一致。
-    Display.init(Display.VIRT, sensor.width(), sensor.height())
+    Display.init(Display.ST7701, sensor.width(), sensor.height(), fps=90, to_ide=True)
     MediaManager.init() #初始化media资源管理器
-
     sensor.run() #启动sensor
-    clock = time.clock() # 构造clock对象
 
     while True:
         os.exitpoint() #检测IDE中断
-        clock.tick()  #记录开始时间（ms）
-        img = sensor.snapshot(chn = CAM_CHN_ID_1) #从通道1捕获一张图
-        Display.show_image(img) #显示图片
-        print(clock.fps()) #打印FPS
 
 # IDE中断释放资源代码
 except KeyboardInterrupt as e:
@@ -269,7 +259,7 @@ finally:
     MediaManager.deinit()
 ```
 
-可以看到，首先导入相关的模块，然后使用try-except-finally用于异常捕获的处理，在try块编写可能引发异常的代码，我们首先构建Sensor的对象，然后进行复位，手册中说明在构造Sensor对象之后，必须调用本函数才能继续其他操作，接着使用sensor.bind_info函数和Display.bind_layer函数将通道0的图像数据持续输出到屏幕，我们也可以设置通道1输出的图像大小和格式用于其他操作，然后启动sensor，我们这里还构建了一个clock对象，用于计时。最后在一个while循环中不断捕获sensor通道1的图像并显示，同时打印帧率。
+可以看到，首先导入相关的模块，然后使用try-except-finally用于异常捕获的处理，在try块编写可能引发异常的代码，我们首先构建Sensor的对象，然后进行复位（手册中说明在构造Sensor对象之后，必须调用复位函数才能继续其他操作），接着使用sensor.bind_info函数和Display.bind_layer函数将通道0的图像数据持续输出到屏幕，然后启动sensor，这样摄像头输出的一路数据就能持续的输出到LCD显示器上，无需在while循环中再进行操作。
 
 except块负责采集异常信息，我们这里有KeyboardInterrupt和BaseException这两个不同异常类型的except块，当发生异常时将异常信息打印出来。
 
@@ -277,7 +267,7 @@ finally块是无论是否发生异常，finally块中的代码都会执行，我
 
 ## 运行验证
 
-将DNK230D开发板连接CanMV IDE，并点击CanMV IDE上的“开始(运行脚本)”按钮后，可以看到LCD上实时地显示这摄像头采集到的画面，如下图所示：
+将K230D BOX开发板连接CanMV IDE，并点击CanMV IDE上的“开始(运行脚本)”按钮后，可以看到LCD上实时地显示这摄像头采集到的画面，如下图所示：
 
 ![01](./img/13.png)
 

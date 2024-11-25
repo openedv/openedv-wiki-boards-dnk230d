@@ -64,7 +64,7 @@ https://developer.canaan-creative.com/k230_canmv/dev/zh/api/canmv_spec.html
 
 1. 独立按键
 
-   ​	KEY0按键 - IO2
+   ​	KEY0按键 - IO34
 
 2. 看门狗1
 
@@ -83,10 +83,10 @@ import time
 fpioa = FPIOA()
 
 # 为IO分配相应的硬件功能
-fpioa.set_function(2, FPIOA.GPIO2)
+fpioa.set_function(34, FPIOA.GPIO34)
 
 # 构造GPIO对象
-key0 = Pin(2, Pin.IN, pull=Pin.PULL_UP, drive=7)
+key0 = Pin(34, Pin.IN, pull=Pin.PULL_UP, drive=7)
 
 # 实例化wdt1，timeout为3s
 wdt1 = WDT(1,3)
@@ -112,7 +112,7 @@ while feed_times < 5:
 
 ## 运行验证
 
-将DNK230D开发板连接CanMV IDE，并点击CanMV IDE上的“开始(运行脚本)”按钮后，此时，若连续在3秒间隔内按下板载的KEY0按键进行喂狗操作，则能看到“串行终端”窗口打印输出WDT1被喂狗的次数提示，如下图所示：
+将DNK230D BOX开发板连接CanMV IDE，并点击CanMV IDE上的“开始(运行脚本)”按钮后，此时，若连续在3秒间隔内按下板载的KEY0按键进行喂狗操作，则能看到“串行终端”窗口打印输出WDT1被喂狗的次数提示，如下图所示：
 
 ![01](./img/04.png)
 

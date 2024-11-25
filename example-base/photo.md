@@ -67,29 +67,29 @@ https://developer.canaan-creative.com/k230_canmv/dev/zh/api/openmv/image.html#sa
 
 ### 例程功能
 
-1. 使用`sensor`模块初始化板载的摄像头，并配置两路摄像头的输出不同的帧大小以及输出格式，一路用于LCD屏幕显示，大小为屏幕的分辨率，另外一路输出的分辨率大小为1920 * 1080，作为拍摄的照片的分辨率大小，从而获得更清晰的照片，我们可以通过KEY选择照片的保存格式，实时图像信息在LCD以及CanMV IDE软件的“帧缓冲区”窗口进行显示。
+1. 使用`sensor`模块初始化板载的摄像头，并配置两路摄像头的输出不同的帧大小以及输出格式，一路用于LCD屏幕显示，大小为屏幕的分辨率，另外一路输出的分辨率大小为1280 * 960，作为拍摄的照片的分辨率大小，从而获得更清晰的照片，我们可以通过KEY选择照片的保存格式，按下KEY0，照片保存为JPG格式，按下KEY1，照片保存为BMP格式，实时图像信息在LCD以及CanMV IDE软件的“帧缓冲区”窗口进行显示。
 
 ### 硬件资源
 
-1. 摄像头 - MIPI CSI0
+1. 摄像头 - MIPI CSI1
 
 2. LCD - MIPI DSI
 
 3. 独立按键
 
-   ​	KEY0按键 - IO2
+   ​	KEY0按键 - IO34
 
-   ​	KEY1按键 - IO5
+   ​	KEY1按键 - IO35
 
 ### 原理图
 
-本章实验内容，需要使用到板载的摄像头接口，在正点原子DNK230D开发板上有两处MIPI摄像头接口位于正点原子CNK230DF核心板，该接口可以直接连接DNK230D开发板自带的GC2093摄像头模组使用，但需要特别注意的是，我们的例程默认是使用MIPI CSI0接口使用的，即CNK230DF核心板上的J2接口处（摄像头默认连接处）。
+本章实验内容，需要使用到板载的摄像头接口，在正点原子K230D BOX开发板上有两处MIPI摄像头接口位于正点原子CNK230DF核心板，该接口可以直接连接K230D BOX开发板自带的GC2093摄像头模组使用，但需要特别注意的是，我们的例程默认是使用MIPI CSI1接口使用的，即CNK230DF核心板上的J2接口处（摄像头默认连接处）。
 
-正点原子DNK230D开发板上的GC2093摄像头模块接口的连接原理图，如下图所示：  
+正点原子K230D BOX开发板上的GC2093摄像头模块接口的连接原理图，如下图所示：  
 
 ![01](./img/11.png)
 
-同时正点原子CNK230DF核心板也提供了MIPI CSI1摄像头接口，同时支持两路摄像头输入（K230D最多支持3路），MIPI摄像头接口的连接原理图，如下图所示：
+同时正点原子CNK230DF核心板也提供了MIPI CSI2摄像头接口，同时支持两路摄像头输入（K230D最多支持3路），MIPI摄像头接口的连接原理图，如下图所示：
 
 ![01](./img/12.png)
 
@@ -108,49 +108,50 @@ import image                #导入Image模块，使用Image相关接口
 fpioa = FPIOA()
 
 # 为IO分配相应的硬件功能
-fpioa.set_function(2, FPIOA.GPIO2)
-fpioa.set_function(5, FPIOA.GPIO5)
+fpioa.set_function(34, FPIOA.GPIO34)
+fpioa.set_function(35, FPIOA.GPIO35)
 
 # 构造GPIO对象
-key0 = Pin(2, Pin.IN, pull=Pin.PULL_UP, drive=7)
-key1 = Pin(5, Pin.IN, pull=Pin.PULL_UP, drive=7)
+key0 = Pin(34, Pin.IN, pull=Pin.PULL_UP, drive=7)
+key1 = Pin(35, Pin.IN, pull=Pin.PULL_UP, drive=7)
 
 try:
     try:
         os.mkdir("/data/PHOTO")
     except Exception:
         pass
-    sensor = Sensor() #构建摄像头对象
-    sensor.reset() #复位和初始化摄像头
-    sensor.set_framesize(Sensor.VGA)      #设置帧大小VGA(640x)，默认通道0
-    sensor.set_pixformat(Sensor.YUV420SP) #设置输出图像格式，默认通道0
+    sensor = Sensor(width=1280, height=960) # 构建摄像头对象
+    sensor.reset() # 复位和初始化摄像头
+
+    sensor.set_framesize(Sensor.VGA)      # 设置帧大小VGA(640x480)，默认通道0
+    sensor.set_pixformat(Sensor.YUV420SP) # 设置输出图像格式，默认通道0
 
     # 将通道0图像绑定到视频输出
     bind_info = sensor.bind_info()
-    Display.bind_layer(**bind_info, layer = Display.LAYER_VIDEO1)
+    Display.bind_layer(**bind_info, layer=Display.LAYER_VIDEO1)
 
     # 设置通道1输出格式，用于图像保存
-    sensor.set_framesize(Sensor.FHD, chn = CAM_CHN_ID_1)   #输出帧大小FHD(1920x1080)
-    sensor.set_pixformat(Sensor.RGB565, chn = CAM_CHN_ID_1) #设置输出图像格式，选择通道1
+    sensor.set_framesize(Sensor.SXGAM, chn=CAM_CHN_ID_1)  # 输出帧大小SXGAM(1280x960)
+    sensor.set_pixformat(Sensor.RGB565, chn=CAM_CHN_ID_1) # 设置输出图像格式，选择通道1
 
     # 初始化LCD显示器，同时IDE缓冲区输出图像,显示的数据来自于sensor通道0。
-    Display.init(Display.ST7701, width = 800, height = 480, to_ide = True)
-    MediaManager.init() #初始化media资源管理器
+    Display.init(Display.ST7701, width = 640, height = 480, to_ide = False)
+    MediaManager.init()  # 初始化media资源管理器
 
-    sensor.run() #启动sensor
+    sensor.run()  # 启动sensor
 
     while True:
-        os.exitpoint() #检测IDE中断
+        os.exitpoint() # 检测IDE中断
         # 读取按键状态，并做相应的按键解释
         if key0.value() == 0:
-            img = sensor.snapshot(chn = CAM_CHN_ID_1) #从通道1捕获一张图
+            img = sensor.snapshot(chn=CAM_CHN_ID_1) # 从通道1捕获一张图
             img.save("/data/PHOTO/photo.jpg")
-            print("snapshot success") #提示照片保存成功
+            print("snapshot success") # 提示照片保存成功
             time.sleep_ms(50)
         if key1.value() == 0:
-            img = sensor.snapshot(chn = CAM_CHN_ID_1) #从通道1捕获一张图
-            img.save("/data/PHOTO/photo.png")
-            print("snapshot success") #提示照片保存成功
+            img = sensor.snapshot(chn=CAM_CHN_ID_1) # 从通道1捕获一张图
+            img.save("/data/PHOTO/photo.bmp")
+            print("snapshot success") # 提示照片保存成功
             time.sleep_ms(50)
         time.sleep_ms(10)
 # IDE中断释放资源代码
@@ -170,11 +171,11 @@ finally:
     MediaManager.deinit()
 ```
 
-可以看到，首先为使用到的IO分配相应的硬件功能，接着是构造GPIO对象，特别的，独立按键相关的GPIO对象都被初始化为上拉输入模式，以读取独立按键的状态，接着启用MIPI CSI0的摄像头，设置两路输出不同的帧大小以及输出格式的图像，一路用于LCD显示，另外一路作为照片存储，另外我们可以通过独立按键KEY0和KEY1选择将照片保存为不同的格式，当KEY0按下时，照片保存为JPG格式，当KEY1按下时，照片保存为PNG格式。
+可以看到，首先为使用到的IO分配相应的硬件功能，接着是构造GPIO对象，特别的，独立按键相关的GPIO对象都被初始化为上拉输入模式，以读取独立按键的状态，接着启用MIPI CSI1的摄像头，设置两路输出不同的帧大小以及输出格式的图像，一路用于LCD显示，另外一路作为照片存储，另外我们可以通过独立按键KEY0和KEY1选择将照片保存为不同的格式，当KEY0按下时，照片保存为JPG格式，当KEY1按下时，照片保存为PNG格式。
 
 ## 运行验证
 
-将DNK230D开发板连接CanMV IDE，并点击CanMV IDE上的“开始(运行脚本)”按钮后，可以看到LCD上实时地显示这摄像头采集到的画面，如下图所示：
+将K230D BOX开发板连接CanMV IDE，并点击CanMV IDE上的“开始(运行脚本)”按钮后，可以看到LCD上实时地显示这摄像头采集到的画面，如下图所示：
 
 ![01](./img/13.png)
 
@@ -182,6 +183,6 @@ finally:
 
 ![01](./img/14.png)
 
-将DNK230D连接到电脑，可以在电脑上查看拍摄的照片，如下图所示：
+将K230D BOX开发板连接到电脑，可以在电脑上查看拍摄的照片，如下图所示：
 
 ![01](./img/16.png)

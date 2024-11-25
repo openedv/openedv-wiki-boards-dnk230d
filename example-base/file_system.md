@@ -87,9 +87,9 @@ https://docs.python.org/3.4/library/functions.html#open
 
 1. 独立按键
 
-   ​	KEY0按键 - IO2
+   ​	KEY0按键 - IO34
 
-   ​	KEY1按键 - IO5
+   ​	KEY1按键 - IO35
 
    ​	KEY2按键 - IO0
 
@@ -110,13 +110,13 @@ import uos
 fpioa = FPIOA()
 
 # 为IO分配相应的硬件功能
-fpioa.set_function(52, FPIOA.GPIO52)
-fpioa.set_function(53, FPIOA.GPIO53)
+fpioa.set_function(34, FPIOA.GPIO34)
+fpioa.set_function(35, FPIOA.GPIO35)
 fpioa.set_function(0, FPIOA.GPIO0)
 
 # 构造GPIO对象
-key0 = Pin(52, Pin.IN, pull=Pin.PULL_UP, drive=7)
-key1 = Pin(53, Pin.IN, pull=Pin.PULL_UP, drive=7)
+key0 = Pin(34, Pin.IN, pull=Pin.PULL_UP, drive=7)
+key1 = Pin(35, Pin.IN, pull=Pin.PULL_UP, drive=7)
 key2 = Pin(0, Pin.IN, pull=Pin.PULL_UP, drive=7)
 
 i = 0
@@ -148,7 +148,7 @@ while True:
 
 ## 运行验证
 
-将DNK230D开发板连接CanMV IDE，并点击CanMV IDE上的“开始(运行脚本)”按钮后，系统启动后打印CanMV K230D盘符对应的目录为`/sdcard/`路径的目录，当按下KEY0时，串口打印提示写入数据成功，当按下KEY1时，读取刚写入的数据并通过串口打印出来，当按下KEY2时，打印`/sdcard/`路径的目录，如下图所示：
+将K230D BOX开发板连接CanMV IDE，并点击CanMV IDE上的“开始(运行脚本)”按钮后，系统启动后打印CanMV K230D盘符对应的目录为`/sdcard/`路径的目录，当按下KEY0时，串口打印提示写入数据成功，当按下KEY1时，读取刚写入的数据并通过串口打印出来，当按下KEY2时，打印`/sdcard/`路径的目录，如下图所示：
 
 ![01](./img/15.png)
 

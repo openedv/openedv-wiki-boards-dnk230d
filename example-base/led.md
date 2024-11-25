@@ -222,9 +222,9 @@ https://developer.canaan-creative.com/k230_canmv/dev/zh/api/canmv_spec.html
 
 1. 双色LED
 
-​	LEDR - IO59
+​	LEDR - IO61
 
-​	LEDB - IO61
+​	LEDB - IO59
 
 ### 原理图
 
@@ -232,7 +232,7 @@ https://developer.canaan-creative.com/k230_canmv/dev/zh/api/canmv_spec.html
 
 ![01](./img/01.png)
 
-通过以上原理图可以看出，双色LED中红色和蓝色LED对应的IO编号分别为IO59和IO61，且都是当IO输出低电平时LED亮起，当IO输出高电平时LED熄灭。  
+通过以上原理图可以看出，双色LED中红色和蓝色LED对应的IO编号分别为IO61和IO59，且都是当IO输出低电平时LED亮起，当IO输出高电平时LED熄灭。  
 
 ##  实验代码
 
@@ -249,8 +249,8 @@ fpioa.set_function(59, FPIOA.GPIO59)
 fpioa.set_function(61, FPIOA.GPIO61)
 
 # 实例化蓝色LED灯和红色LED灯引脚为输出
-ledb = Pin(61, Pin.OUT, pull=Pin.PULL_NONE, drive=7)
-ledr = Pin(59, Pin.OUT, pull=Pin.PULL_NONE, drive=7)
+ledb = Pin(59, Pin.OUT, pull=Pin.PULL_NONE, drive=7)
+ledr = Pin(61, Pin.OUT, pull=Pin.PULL_NONE, drive=7)
 
 # 设置输出为高
 ledb.value(1)
@@ -275,5 +275,5 @@ while True:
 
 ## 运行验证
 
-将DNK230D开发板连接CanMV IDE，并点击CanMV IDE上的“开始(运行脚本)”按钮后，可以看到板载的双色LED轮流亮起、熄灭，实现跑马灯的效果，这与理论推断的结果一致。  
+将K230D BOX开发板连接CanMV IDE，并点击CanMV IDE上的“开始(运行脚本)”按钮后，可以看到板载的双色LED轮流亮起、熄灭，实现跑马灯的效果，这与理论推断的结果一致。  
 

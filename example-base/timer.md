@@ -87,11 +87,11 @@ https://developer.canaan-creative.com/k230_canmv/dev/zh/api/canmv_spec.html
 
 1. 双色LED
 
-   ​	LEDR - IO59
+   ​	LEDR - IO61
 
 2. 独立按键
 
-   ​	KEY0按键 - IO2
+   ​	KEY0按键 - IO34
 
 ### 原理图
 
@@ -109,12 +109,12 @@ import time
 fpioa = FPIOA()
 
 # 为IO分配相应的硬件功能
-fpioa.set_function(2, FPIOA.GPIO2)
-fpioa.set_function(59, FPIOA.GPIO59)
+fpioa.set_function(34, FPIOA.GPIO34)
+fpioa.set_function(61, FPIOA.GPIO61)
 
 # 构造GPIO对象
-key0 = Pin(2, Pin.IN, pull=Pin.PULL_UP, drive=7)
-ledr = Pin(59, Pin.OUT, pull=Pin.PULL_NONE, drive=7)
+key0 = Pin(34, Pin.IN, pull=Pin.PULL_UP, drive=7)
+ledr = Pin(61, Pin.OUT, pull=Pin.PULL_NONE, drive=7)
 
 count = 0
 
@@ -126,7 +126,7 @@ def timer_timeout_cb(timer):
 
 # 实例化一个软定时器
 tim = Timer(-1)
-tim.init(period=1000, mode=Timer.PERIODIC, callback = timer_timeout_cb)
+tim.init(period = 1000, mode = Timer.PERIODIC, callback = timer_timeout_cb)
 
 while True:
     if key0.value() == 0:
@@ -147,13 +147,4 @@ while True:
 
 ## 运行验证
 
-将DNK230D开发板连接CanMV IDE，并点击CanMV IDE上的“开始(运行脚本)”按钮后，此时，若连续在3秒间隔内按下板载的KEY0按键进行喂狗操作，则能看到“串行终端”窗口打印输出WDT1被喂狗的次数提示，如下图所示：
-
-![01](./img/04.png)
-
-若喂狗次数达到5次，则脚本程序运行完毕。
-
-但若没有在3秒内按下板载的KEY0按键进行喂狗操作，则WDT1将对Kendryte K230D进行系统复位，此时通过CanMV IDE软件能观察到，原本处于“已连接”状态的Kendryte K230D设备变为了“未连接”状态，如下图所示：
-
-![01](./img/05.png)
-
+将K230D BOX开发板连接CanMV IDE，并点击CanMV IDE上的“开始(运行脚本)”按钮后，此时，可以看到板载的红色LED每隔2秒亮灭一次，这是因为在定时器中断每隔1秒会将红色LED灯的引脚翻转一次，如果再按下KEY0，系统会释放定时器资源，此时红色LED灯不再闪烁。
