@@ -37,6 +37,7 @@ from libs.AI2D import Ai2d
 import os
 import ujson
 from media.media import *
+from media.sensor import *
 from time import *
 import nncase_runtime as nn
 import ulab.numpy as np
@@ -128,11 +129,12 @@ if __name__ == "__main__":
     anchors_path = "/sdcard/examples/utils/prior_data_320.bin"
     anchors = np.fromfile(anchors_path, dtype=np.float)
     anchors = anchors.reshape((anchor_len, det_dim))
-    rgb888p_size = [1920, 1080]
+    rgb888p_size = [1280, 960]
 
     # 初始化PipeLine，用于图像处理流程
+    sensor = Sensor(width=1280, height=960) # 构建摄像头对象
     pl = PipeLine(rgb888p_size=rgb888p_size, display_size=display_size, display_mode=display_mode)
-    pl.create()  # 创建PipeLine实例
+    pl.create(sensor=sensor)  # 创建PipeLine实例
     # 初始化自定义人脸检测实例
     face_det = FaceDetectionApp(kmodel_path, model_input_size=[320, 320], anchors=anchors, confidence_threshold=confidence_threshold, nms_threshold=nms_threshold, rgb888p_size=rgb888p_size, display_size=display_size, debug_mode=0)
     face_det.config_preprocess()  # 配置预处理

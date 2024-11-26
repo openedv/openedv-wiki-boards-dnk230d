@@ -37,6 +37,7 @@ from libs.AI2D import Ai2d
 import os
 import ujson
 from media.media import *
+from media.sensor import *
 from time import *
 import nncase_runtime as nn
 import ulab.numpy as np
@@ -320,8 +321,9 @@ if __name__=="__main__":
     anchors = anchors.reshape((anchor_len,det_dim))
 
     # 初始化PipeLine，只关注传给AI的图像分辨率，显示的分辨率
-    pl=PipeLine(rgb888p_size=rgb888p_size,display_size=display_size,display_mode=display_mode)
-    pl.create()
+    sensor = Sensor(width=1280, height=960) # 构建摄像头对象
+    pl = PipeLine(rgb888p_size=rgb888p_size, display_size=display_size, display_mode=display_mode)
+    pl.create(sensor=sensor)  # 创建PipeLine实例
     flm=FaceLandMark(face_det_kmodel_path,face_landmark_kmodel_path,det_input_size=face_det_input_size,landmark_input_size=face_landmark_input_size,anchors=anchors,confidence_threshold=confidence_threshold,nms_threshold=nms_threshold,rgb888p_size=rgb888p_size,display_size=display_size)
     try:
         while True:
@@ -329,7 +331,7 @@ if __name__=="__main__":
             with ScopedTiming("total",1):
                 img=pl.get_frame()                          # 获取当前帧
                 det_boxes,landmark_res=flm.run(img)         # 推理当前帧
-                print(det_boxes,landmark_res)               # 打印结果
+#                print(det_boxes,landmark_res)               # 打印结果
                 flm.draw_result(pl,det_boxes,landmark_res)  # 绘制推理结果
                 pl.show_image()                             # 展示推理效果
                 gc.collect()

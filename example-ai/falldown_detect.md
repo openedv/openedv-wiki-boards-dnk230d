@@ -135,13 +135,14 @@ if __name__ == "__main__":
     kmodel_path = "/sdcard/examples/kmodel/yolov5n-falldown.kmodel"
     confidence_threshold = 0.3
     nms_threshold = 0.45
-    rgb888p_size = [1920, 1080]
+    rgb888p_size = [1280, 960]
     labels = ["Fall","NoFall"]  # 模型输出类别名称
     anchors = [10, 13, 16, 30, 33, 23, 30, 61, 62, 45, 59, 119, 116, 90, 156, 198, 373, 326]  # anchor设置
 
-    # 初始化PipeLine，用于图像处理流程
+    # 初始化PipeLine
+    sensor = Sensor(width=1280, height=960) # 构建摄像头对象
     pl = PipeLine(rgb888p_size=rgb888p_size, display_size=display_size, display_mode=display_mode)
-    pl.create()
+    pl.create(sensor=sensor)  # 创建PipeLine实例
     # 初始化自定义跌倒检测实例
     fall_det = FallDetectionApp(kmodel_path, model_input_size=[640, 640], labels=labels, anchors=anchors, confidence_threshold=confidence_threshold, nms_threshold=nms_threshold, nms_option=False, strides=[8,16,32], rgb888p_size=rgb888p_size, display_size=display_size, debug_mode=0)
     fall_det.config_preprocess()
