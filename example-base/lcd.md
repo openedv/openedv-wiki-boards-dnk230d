@@ -135,7 +135,7 @@ https://developer.canaan-creative.com/k230_canmv/dev/zh/api/image_video.html
 
 ### 例程功能
 
-1. 使用`Display`模块初始化板载的LCD显示器，K230D BOX板载的LCD分辨率大小为640 * 480，然后连续在图像中绘制10条"Hello World!，你好世界！！！"字样，显示位置、字符串大小和颜色均会随机改变，最后将图像绘制到LCD显示器上，可以在LCD以及CanMV IDE软件的“帧缓冲区”窗口进行观察。
+1. 使用`Display`模块初始化板载的LCD显示器，K230D BOX板载的LCD分辨率大小为640 * 480，然后连续在图像中绘制10条"Hello World!，你好世界！！！"字样，显示位置、字符串大小和颜色均会随机改变，最后将图像绘制到LCD显示器上，可以在LCD显示器或CanMV IDE软件的“帧缓冲区”窗口进行观察。
 
 ### 硬件资源
 
@@ -200,6 +200,6 @@ if __name__ == "__main__":
 
 ## 运行验证
 
-将DNK230D开发板连接CanMV IDE，并点击CanMV IDE上的“开始(运行脚本)”按钮后，可以看到LCD上实时地显示这摄像头采集到的画面，如下图所示：
+将K230D BOX开发板连接CanMV IDE，并点击CanMV IDE上的“开始(运行脚本)”按钮后，可以看到LCD上实时地显示这摄像头采集到的画面，如下图所示：
 
 ![01](./img/18.png)

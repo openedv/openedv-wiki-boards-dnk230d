@@ -104,9 +104,9 @@ https://developer.canaan-creative.com/k230_canmv/dev/zh/api/openmv/image.html
 
 ``` python
 import time, os, sys
-from media.sensor import *  #导入sensor模块，使用摄像头相关接口
-from media.display import * #导入display模块，使用display相关接口
-from media.media import *   #导入media模块，使用meida相关接口
+from media.sensor import *  # 导入sensor模块，使用摄像头相关接口
+from media.display import * # 导入display模块，使用display相关接口
+from media.media import *   # 导入media模块，使用meida相关接口
 
 # 颜色识别阈值 (l_lo, l_hi, a_lo, a_hi, b_lo, b_hi) 即LAB模型，对应 LAB 色彩空间中的 L、A 和 B 通道的最小和最大值
 # 下面的阈值元组是用来识别 红、绿、蓝三种颜色，你可以根据使用场景调整提高识别效果。
@@ -115,28 +115,28 @@ thresholds = [(0, 80, 40, 80, 10, 80), # 红色
               (0, 80, 0, 90, -128, -20)] # 蓝色
 
 try:
-    sensor = Sensor() #构建摄像头对象
-    sensor.reset() #复位和初始化摄像头
-    sensor.set_framesize(Sensor.VGA)    #设置帧大小QVGA(320x240)，默认通道0
-    sensor.set_pixformat(Sensor.RGB565) #设置输出图像格式，默认通道0
+    sensor = Sensor(width=1280, height=960) # 构建摄像头对象
+    sensor.reset() # 复位和初始化摄像头
+    sensor.set_framesize(Sensor.VGA)    # 设置帧大小VGA(640x480)，默认通道0
+    sensor.set_pixformat(Sensor.RGB565) # 设置输出图像格式，默认通道0
 
     # 初始化LCD显示器，同时IDE缓冲区输出图像,显示的数据来自于sensor通道0。
-    Display.init(Display.ST7701, width = 800, height = 480, fps=60, to_ide = True)
-    MediaManager.init() #初始化media资源管理器
-    sensor.run() #启动sensor
+    Display.init(Display.ST7701, width=640, height=480, fps=90, to_ide=True)
+    MediaManager.init() # 初始化media资源管理器
+    sensor.run() # 启动sensor
     clock = time.clock() # 构造clock对象
 
     while True:
-        os.exitpoint() #检测IDE中断
-        clock.tick()  #记录开始时间（ms）
-        img = sensor.snapshot() #从通道0捕获一张图
-        blobs = img.find_blobs([thresholds[0]], pixels_threshold= 200) # 0,1,2分别表示红，绿，蓝色。
+        os.exitpoint() # 检测IDE中断
+        clock.tick()  # 记录开始时间（ms）
+        img = sensor.snapshot() # 从通道0捕获一张图
+        blobs = img.find_blobs([thresholds[0]], pixels_threshold=200) # 0,1,2分别表示红，绿，蓝色。
         for blob in blobs:
-            img.draw_rectangle(blob[0], blob[1], blob[2], blob[3], color = (255, 0, 0),  thickness = 4)
+            img.draw_rectangle(blob[0], blob[1], blob[2], blob[3], color=(255, 0, 0), thickness=4)
 
         # 显示图片
-        Display.show_image(img, x=round((800-sensor.width())/2),y=round((480-sensor.height())/2))
-        print(clock.fps()) #打印FPS
+        Display.show_image(img)
+        print(clock.fps()) # 打印FPS
 
 # IDE中断释放资源代码
 except KeyboardInterrupt as e:
@@ -159,11 +159,7 @@ finally:
 
 ## 运行验证
 
-将DNK230D开发板连接CanMV IDE，并点击CanMV IDE上的“开始(运行脚本)”按钮后，可以看到LCD上实时地显示这摄像头采集到的画面，如下图所示：
-
-![01](./img/15.png)
-
-也可以在CanMV IDE看到摄像头采集的画面，如下图所示：
+将K230D BOX开发板连接CanMV IDE，并点击CanMV IDE上的“开始(运行脚本)”按钮后，可以看到LCD上实时地显示这摄像头采集到的画面，如下图所示：
 
 ![01](./img/15.png)
 

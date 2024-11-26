@@ -228,7 +228,7 @@ https://developer.canaan-creative.com/k230_canmv/dev/zh/api/canmv_spec.html
 
 ### 原理图
 
-本章实验内容，需要控制板载双色LED轮流闪烁，以实现跑马灯的效果，正点原子DNK230D开发板上双色LED的连接原理图，如下图所示：  
+本章实验内容，需要控制板载双色LED轮流闪烁，以实现跑马灯的效果，正点原子K230D BOX开发板上双色LED的连接原理图，如下图所示：  
 
 ![01](./img/01.png)
 

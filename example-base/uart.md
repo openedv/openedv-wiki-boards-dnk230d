@@ -94,12 +94,14 @@ https://developer.canaan-creative.com/k230_canmv/dev/zh/api/canmv_spec.html
 3. 扩展串口接口2
 
    ​	UART2_TXD - IO44
-
-​    	   UART2_RXD - IO45
+   
+   ​	UART2_RXD - IO45
+   
+   
 
 ### 原理图
 
-本章实验内容，需要使用到DNK230D板载的扩展串口接口1和扩展串口接口2，正点原子DNK230D开发板上的扩展串口接口连接原理图，如下图所示：
+本章实验内容，需要使用到K230D BOX板载的扩展串口接口1和扩展串口接口2，正点原子K230D BOX开发板上的扩展串口接口连接原理图，如下图所示：
 
 ![01](./img/07.png)
 

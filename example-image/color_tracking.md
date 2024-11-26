@@ -103,19 +103,19 @@ from machine import FPIOA
 fpioa = FPIOA()
 
 # 为IO分配相应的硬件功能
-fpioa.set_function(21, FPIOA.GPIO21)
+fpioa.set_function(34, FPIOA.GPIO34)
 
 # 构造GPIO对象
-key0 = Pin(21, Pin.IN, pull=Pin.PULL_UP, drive=7)
+key0 = Pin(34, Pin.IN, pull=Pin.PULL_UP, drive=7)
 
 try:
-    sensor = Sensor(width=640, height=480) # 构建摄像头对象
+    sensor = Sensor(width=1280, height=960) # 构建摄像头对象
     sensor.reset() # 复位和初始化摄像头
     sensor.set_framesize(Sensor.VGA)    # 设置帧大小VGA(640x480)，默认通道0
     sensor.set_pixformat(Sensor.RGB565) # 设置输出图像格式，默认通道0
 
     # 初始化LCD显示器，同时IDE缓冲区输出图像,显示的数据来自于sensor通道0。
-    Display.init(Display.ST7701, width=800, height=480, fps=90, to_ide=True)
+    Display.init(Display.ST7701, width=640, height=480, fps=90, to_ide=True)
     MediaManager.init() # 初始化media资源管理器
     sensor.run() # 启动sensor
     clock = time.clock() # 构造clock对象
@@ -169,7 +169,7 @@ try:
                 img.draw_rectangle([v for v in blob.rect()])
                 img.draw_cross(blob.cx(), blob.cy())
         # 显示图片
-        Display.show_image(img, x=round((800 - sensor.width()) / 2), y=round((480 - sensor.height()) / 2))
+        Display.show_image(img)
         print(clock.fps()) # 打印FPS
 
 # IDE中断释放资源代码
@@ -197,7 +197,7 @@ finally:
 
 ![01](./img/19.png)
 
-将DNK230D开发板连接CanMV IDE，并点击CanMV IDE上的“开始(运行脚本)”按钮后，可以看到LCD上实时地显示这摄像头采集到的画面，此时系统不会进行色块追踪，如下图所示：
+将K230D BOX开发板连接CanMV IDE，并点击CanMV IDE上的“开始(运行脚本)”按钮后，可以看到LCD上实时地显示这摄像头采集到的画面，此时系统不会进行色块追踪，如下图所示：
 
 ![01](./img/20.png)
 

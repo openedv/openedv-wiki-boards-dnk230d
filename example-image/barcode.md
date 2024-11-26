@@ -107,16 +107,51 @@ from media.sensor import *  # 导入sensor模块，使用摄像头相关接口
 from media.display import * # 导入display模块，使用display相关接口
 from media.media import *   # 导入media模块，使用meida相关接口
 
+# 定义条形码类型
+def barcode_name(code):
+    if(code.type() == image.EAN2):
+        return "EAN2"
+    if(code.type() == image.EAN5):
+        return "EAN5"
+    if(code.type() == image.EAN8):
+        return "EAN8"
+    if(code.type() == image.UPCE):
+        return "UPCE"
+    if(code.type() == image.ISBN10):
+        return "ISBN10"
+    if(code.type() == image.UPCA):
+        return "UPCA"
+    if(code.type() == image.EAN13):
+        return "EAN13"
+    if(code.type() == image.ISBN13):
+        return "ISBN13"
+    if(code.type() == image.I25):
+        return "I25"
+    if(code.type() == image.DATABAR):
+        return "DATABAR"
+    if(code.type() == image.DATABAR_EXP):
+        return "DATABAR_EXP"
+    if(code.type() == image.CODABAR):
+        return "CODABAR"
+    if(code.type() == image.CODE39):
+        return "CODE39"
+    if(code.type() == image.PDF417):
+        return "PDF417"
+    if(code.type() == image.CODE93):
+        return "CODE93"
+    if(code.type() == image.CODE128):
+        return "CODE128"
+
 try:
-    sensor = Sensor() # 构建摄像头对象
+    sensor = Sensor(width=1280, height=960) # 构建摄像头对象
     sensor.reset()    # 复位和初始化摄像头
     sensor.set_framesize(Sensor.VGA)    # 设置帧大小VGA(640x480)，默认通道0
     sensor.set_pixformat(Sensor.RGB565) # 设置输出图像格式，默认通道0
 
     # 初始化LCD显示器，同时IDE缓冲区输出图像,显示的数据来自于sensor通道0。
-    Display.init(Display.ST7701, width=800, height=480, fps=90, to_ide=True)
-    MediaManager.init() # 初始化media资源管理器
-    sensor.run() # 启动sensor
+    Display.init(Display.ST7701, width=640, height=480, fps=90, to_ide=True)
+    MediaManager.init()    # 初始化media资源管理器
+    sensor.run()  # 启动sensor
     clock = time.clock() # 构造clock对象
 
     while True:
@@ -124,15 +159,16 @@ try:
         clock.tick()   # 记录开始时间（ms）
         img = sensor.snapshot() # 从通道0捕获一张图
 
-        # 遍历图像中的二维码
-        for code in img.find_qrcodes():
-            rect = code.rect()
-            img.draw_rectangle([v for v in rect], color=(255, 0, 0), thickness=4)
-            img.draw_string_advanced(rect[0], rect[1], 32, code.payload())
-            print(code)
+        #遍历图像中所有条形码
+        for code in img.find_barcodes():
+            img.draw_rectangle([v for v in code.rect()], color=(255, 0, 0), thickness=4)
+            #打印相关信息
+            print_args = (barcode_name(code), code.payload(), (180 * code.rotation()) / math.pi, code.quality(), clock.fps())
+            print("Barcode %s, Payload \"%s\", rotation %f (degrees), quality %d, FPS %f" % print_args)
+            img.draw_string_advanced(0, 0, 30, code.payload(), color = (255, 255, 255)) #图像显示条码信息
 
         # 显示图片
-        Display.show_image(img, x=round((800 - sensor.width()) / 2), y=round((480 - sensor.height()) / 2))
+        Display.show_image(img)
         print(clock.fps()) # 打印FPS
 
 # IDE中断释放资源代码
@@ -160,6 +196,6 @@ finally:
 
 ![01](./img/25.png)
 
-将DNK230D开发板连接CanMV IDE，并点击CanMV IDE上的“开始(运行脚本)”按钮后，可以看到LCD上实时地显示这摄像头采集到的画面，如下图所示：
+将K230D BOX开发板连接CanMV IDE，并点击CanMV IDE上的“开始(运行脚本)”按钮后，可以看到LCD上实时地显示这摄像头采集到的画面，如下图所示：
 
 ![01](./img/26.png)

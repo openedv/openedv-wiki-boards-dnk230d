@@ -33,7 +33,7 @@ FPIOA类位于machine模块下
 
 用户需要先构建`Sensor`对象再继续操作
 
-目前已实现自动探测摄像头，用户可选择输出图像的最大分辨率和帧率，参考[摄像头列表](https://developer.canaan-creative.com/k230_canmv/dev/zh/api/mpp/K230_CanMV_Sensor模块API手册.html#id9)
+目前已实现自动探测摄像头，用户可选择输出图像的最大分辨率和帧率，参考[摄像头列表](https://developer.canaan-creative.com/k230_canmv/dev/zh/api/mpp/K230_CanMV_Sensor%E6%A8%A1%E5%9D%97API%E6%89%8B%E5%86%8C.html#id4)
 
 用户设置目标分辨率和帧率之后，如果底层驱动不支持该设置，则会进行自动匹配出最佳配置
 

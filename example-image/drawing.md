@@ -229,7 +229,7 @@ from media.display import * #导入display模块，使用display相关接口
 from media.media import *   #导入media模块，使用meida相关接口
 
 try:
-    sensor = Sensor() #构建摄像头对象
+    sensor = Sensor(width=1280, height=960) # 构建摄像头对象
     sensor.reset() #复位和初始化摄像头
     sensor.set_framesize(Sensor.VGA)    #设置帧大小VGA(640x480)，默认通道0
     sensor.set_pixformat(Sensor.RGB565) #设置输出图像格式，默认通道0
@@ -258,7 +258,7 @@ try:
         # 绘制字符，支持中文
         img.draw_string_advanced(150, 20, 60, "正点原子", color = (255, 0, 0))
         # 绘制字符串
-        img.draw_string(150, 100, "Hello\r\nDNK230D", color=(255, 0, 0), scale=6)
+        img.draw_string(150, 100, "Hello\r\nK230D BOX", color=(255, 0, 0), scale=6)
         # 显示图片
         Display.show_image(img, x=round((800-sensor.width())/2),y=round((480-sensor.height())/2))
 
@@ -283,6 +283,6 @@ finally:
 
 ## 运行验证
 
-将DNK230D开发板连接CanMV IDE，并点击CanMV IDE上的“开始(运行脚本)”按钮后，可以看到LCD上实时地显示这摄像头采集到的画面，如下图所示：
+将K230D BOX开发板连接CanMV IDE，并点击CanMV IDE上的“开始(运行脚本)”按钮后，可以看到LCD上实时地显示这摄像头采集到的画面，如下图所示：
 
 ![01](./img/01.png)

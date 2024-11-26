@@ -80,36 +80,33 @@ https://developer.canaan-creative.com/k230_canmv/dev/zh/api/openmv/image.html
 
 ``` python
 import time, os, sys
-from media.sensor import *  #导入sensor模块，使用摄像头相关接口
-from media.display import * #导入display模块，使用display相关接口
-from media.media import *   #导入media模块，使用meida相关接口
-
+from media.sensor import *  # 导入sensor模块，使用摄像头相关接口
+from media.display import * # 导入display模块，使用display相关接口
+from media.media import *   # 导入media模块，使用meida相关接口
 
 try:
-    sensor = Sensor(width=320, height=240) #构建摄像头对象
-    sensor.reset() #复位和初始化摄像头
-    sensor.set_framesize(Sensor.QVGA)    #设置帧大小QVGA(320x240)，默认通道0
-    sensor.set_pixformat(Sensor.RGB565) #设置输出图像格式，默认通道0
+    sensor = Sensor(width=1280, height=960) # 构建摄像头对象
+    sensor.reset() # 复位和初始化摄像头
+    sensor.set_framesize(Sensor.QVGA)   # 设置帧大小QVGA(320x240)，默认通道0
+    sensor.set_pixformat(Sensor.RGB565) # 设置输出图像格式，默认通道0
 
     # 初始化LCD显示器，同时IDE缓冲区输出图像,显示的数据来自于sensor通道0。
-    Display.init(Display.ST7701, width = 800, height = 480, fps=60, to_ide = True)
-    MediaManager.init() #初始化media资源管理器
-    sensor.run() #启动sensor
+    Display.init(Display.ST7701, width=640, height=480, to_ide=True)
+    MediaManager.init() # 初始化media资源管理器
+    sensor.run()        # 启动sensor
     clock = time.clock() # 构造clock对象
 
     while True:
-        os.exitpoint() #检测IDE中断
-        clock.tick()  #记录开始时间（ms）
-        img = sensor.snapshot() #从通道0捕获一张图
-        for c in img.find_circles(threshold = 3500, x_margin = 10, y_margin= 10,
-                                  r_margin = 10,r_min = 6, r_max = 120, r_step = 2):
-            #画红色圆做指示
-            img.draw_circle(c.x(), c.y(), c.r(), color = (255, 0, 0),thickness=2)
-
-            print(c) #打印圆形的信息
+        os.exitpoint() # 检测IDE中断
+        clock.tick()   # 记录开始时间（ms）
+        img = sensor.snapshot() # 从通道0捕获一张图
+        for r in img.find_rects(threshold=8000):
+            img.draw_rectangle([v for v in r.rect()], color=(255, 0, 0))
+            for p in r.corners(): img.draw_circle(p[0], p[1], 5, color=(0, 255, 0))
+            print(r)
         # 显示图片
-        Display.show_image(img, x=round((800-sensor.width())/2),y=round((480-sensor.height())/2))
-        print(clock.fps()) #打印FPS
+        Display.show_image(img, x=round((640 - sensor.width()) / 2), y=round((480 - sensor.height()) / 2))
+        print(clock.fps()) # 打印FPS
 
 # IDE中断释放资源代码
 except KeyboardInterrupt as e:
@@ -136,11 +133,7 @@ finally:
 
 ![01](./img/07.png)
 
-将DNK230D开发板连接CanMV IDE，并点击CanMV IDE上的“开始(运行脚本)”按钮后，可以看到LCD上实时地显示这摄像头采集到的画面，如下图所示：
-
-![01](./img/08.png)
-
-也可以在CanMV IDE看到摄像头采集的画面，如下图所示：
+将K230D BOX开发板连接CanMV IDE，并点击CanMV IDE上的“开始(运行脚本)”按钮后，可以看到LCD上实时地显示这摄像头采集到的画面，如下图所示：
 
 ![01](./img/08.png)
 
