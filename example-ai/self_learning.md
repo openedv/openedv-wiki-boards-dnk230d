@@ -53,8 +53,8 @@ import aicube
 
 # 将GPIO0配置为普通GPIO模式
 fpioa = FPIOA()
-fpioa.set_function(34, FPIOA.GPIO34)
-key0 = Pin(34, Pin.IN, pull=Pin.PULL_UP,drive=7) #构建key0对象
+fpioa.set_function(35, FPIOA.GPIO35)
+key1 = Pin(35, Pin.IN, pull=Pin.PULL_UP,drive=7) #构建key1对象
 key_node = 0 #按键标志位
 
 # 自定义自学习类
@@ -221,12 +221,12 @@ if __name__=="__main__":
             os.exitpoint()
             with ScopedTiming("total",1):
                 #检测按键
-                if key0.value()==0:   # 按键被按下
+                if key1.value()==0:   # 按键被按下
                     time.sleep_ms(10) # 消除抖动
-                    if key0.value()==0: # 确认按键被按下
-                        print('key0被按下')
+                    if key1.value()==0: # 确认按键被按下
+                        print('key1被按下')
                         key_node = 1
-                        while not key0.value(): #检测按键是否松开
+                        while not key1.value(): #检测按键是否松开
                             pass
                 # 获取当前帧数据
                 img=pl.get_frame()
@@ -259,7 +259,7 @@ if __name__=="__main__":
 
 然后调用自定义SelfLearningApp类构建自学习的任务，SelfLearningApp类会通过调用AIBase接口的初始化以及使用Ai2D接口的方法定义自学习分类测模型输入图像的预处理方法。
 
-最后在一个循环中不断地获取摄像头输出的RGBP888格式的图像帧，然后依次将图像输入到自学习分类模型进行推理，然后将推理结果通过print打印，同时将分类的结果和相似度绘制到图像上，并在LCD上显示图像。系统在特征采集状态下可以通过按键key0控制每个标签的特征值采集。
+最后在一个循环中不断地获取摄像头输出的RGBP888格式的图像帧，然后依次将图像输入到自学习分类模型进行推理，然后将推理结果通过print打印，同时将分类的结果和相似度绘制到图像上，并在LCD上显示图像。系统在特征采集状态下可以通过按键KEY1控制每个标签的特征值采集。
 
 ## 运行验证
 
@@ -267,7 +267,7 @@ if __name__=="__main__":
 
 ![01](./img/57.png)
 
-将K230D BOX开发板连接CanMV IDE，点击CanMV IDE上的“开始(运行脚本)”按钮后，首先进入分类物体的特征采集状态，我们设置了三种标签，依次是苹果、香蕉和梨，首先将摄像头对准苹果区域，让其采集到的苹果区域在方框内，然后按下按键key0，开始采集苹果的特征值。如下图所示：  
+将K230D BOX开发板连接CanMV IDE，点击CanMV IDE上的“开始(运行脚本)”按钮后，首先进入分类物体的特征采集状态，我们设置了三种标签，依次是苹果、香蕉和梨，首先将摄像头对准苹果区域，让其采集到的苹果区域在方框内，然后按下按键KEY1，开始采集苹果的特征值。如下图所示：  
 
 ![01](./img/58.png)
 

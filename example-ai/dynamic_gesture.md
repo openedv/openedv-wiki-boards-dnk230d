@@ -7,7 +7,7 @@ sidebar_position: 12
 
 ## 前言
 
-在上一章节中，我们已经学习了如何在CanMV下使用CanMV AI视觉开发框架和MicroPython编程方法实现手掌关键点检测的功能，本章将通过手掌关键点分类实验，介绍如何使用CanMV AI视觉开发框架和MicroPython编程完成根据手掌关键点的位置分布实现手势分类的功能。本实验由上个实验优化和扩展而来，所以使用的模型是一样的，代码相似度也非常高，我们首先采集摄像头捕获的图像，然后经过图像预处理、模型推理和输出处理结果等一系列步骤，完成手掌检测的功能，然后在检测到手掌的区域，进一步使用手掌关键点检测模型进行推理，从而得到每个手掌的21个手掌骨骼关键点位置，接着再根据手掌的21个骨骼关键点的分布判断手掌的手势，最后，将手指关键点信息和手势分类信息绘制并显示到显示器上。通过本章的学习，读者将掌握如何在CanMV下使用CanMV AI视觉开发框架和MicroPython编程方法实现手掌关键点分类的方法。
+在上一章节中，我们已经学习了如何在CanMV下使用CanMV AI视觉开发框架和MicroPython编程方法实现手掌关键点分类的功能，本章将通过动态手势识别实验，介绍如何使用CanMV AI视觉开发框架和MicroPython编程实现动态手势识别的功能。本实验由上个实验扩展而来，额外增加一个动态手势识别模型，与上个实验用到的两个模型配合应用，代码比较复杂，我们首先采集摄像头捕获的图像，然后经过图像预处理、模型推理和输出处理结果等一系列步骤，完成手掌检测的功能，然后在检测到手掌的区域，进一步使用手掌关键点检测模型进行推理，从而获得具体手势，然后再使用动态手势模型进行动态识别，通过对手势的静态识别和手的动态检测，从而实现动态手势识别的功能。通过本章的学习，读者将掌握如何在CanMV下使用CanMV AI视觉开发框架和MicroPython编程方法实现动态手势识别的方法。
 
 ## AI开发框架介绍
 
@@ -17,7 +17,7 @@ sidebar_position: 12
 
 ### 例程功能
 
-1. 获取摄像头输出的图像，然后将图像输入到CanMV K230D的AI模型进行推理。本实验使用了两个AI模型：一个是前面章节使用到的手掌检测模型，另一个是手掌关键点检测模型。手掌检测模型负责找出图像中的手掌区域，然后将该区域传递给手掌关键点检测模型进行手掌关键点位置的推理。手掌关键点检测模型能将输入模型的手掌图进行检测，然后对检测到的每一个手掌进行关键点回归得到21个手掌骨骼关键点位置，再根据21个手掌判断手掌是什么手势，本实验能区分9种手势，分别是"fist"、"five"、"gun"、"love"、"one"、"six"、"three"、"thumbUp"和"yeah"，接着在图像上绘手掌关键点信息和手势分类信息。最后，将处理后的图像显示在LCD上。
+1. 获取摄像头输出的图像，然后将图像输入到CanMV K230D的AI模型进行推理。本实验使用了三个AI模型：两个是上个实验使用的手掌检测模型和关键点检测模型，额外增加了一个动态手势识别模型。手掌检测模型负责找出图像中的手掌区域，然后将该区域传递给手掌关键点检测模型进行手掌关键点位置的推理。手掌关键点检测模型能将输入模型的手掌图进行检测，实现对手势的判断，动态手势识别模型主要对手势的动态检测，通过对手的静态检测和手的动态识别，实现了五种动态手势的识别，五种手势包括：上挥手、下挥手、左挥手、右挥手、手指捏合五个手势。最后，将处理后的图像显示在LCD上。
 
 ### 硬件资源
 
@@ -576,17 +576,17 @@ class DynamicGesture:
         self.elapsed_ms_show = round((time.time_ns()-self.s_start)/1000000)
         if (self.elapsed_ms_show<1000):
             if (self.draw_state == self.UP):
-                draw_img.draw_arrow(1068,330,1068,130, (255,170,190,230), thickness=13)                             # 判断为向下挥动时，画一个向下的箭头
-                draw_img.draw_string_advanced(self.display_size[0]//2-50,self.display_size[1]//2-50,32,"向下")
-            elif (self.draw_state == self.RIGHT):
-                draw_img.draw_arrow(1290,540,1536,540, (255,170,190,230), thickness=13)                             # 判断为向左挥动时，画一个向左的箭头
-                draw_img.draw_string_advanced(self.display_size[0]//2-50,self.display_size[1]//2-50,32,"向左")
-            elif (self.draw_state == self.DOWN):
-                draw_img.draw_arrow(1068,750,1068,950, (255,170,190,230), thickness=13)                             # 判断为向上挥动时，画一个向上的箭头
+                draw_img.draw_arrow(1068,330,1068,130, (255,170,190,230), thickness=13)                             # 判断为向上挥动时，画一个向上的箭头
                 draw_img.draw_string_advanced(self.display_size[0]//2-50,self.display_size[1]//2-50,32,"向上")
-            elif (self.draw_state == self.LEFT):
-                draw_img.draw_arrow(846,540,600,540, (255,170,190,230), thickness=13)                               # 判断为向右挥动时，画一个向右的箭头
+            elif (self.draw_state == self.RIGHT):
+                draw_img.draw_arrow(1290,540,1536,540, (255,170,190,230), thickness=13)                             # 判断为向右挥动时，画一个向右的箭头
                 draw_img.draw_string_advanced(self.display_size[0]//2-50,self.display_size[1]//2-50,32,"向右")
+            elif (self.draw_state == self.DOWN):
+                draw_img.draw_arrow(1068,750,1068,950, (255,170,190,230), thickness=13)                             # 判断为向下挥动时，画一个向下的箭头
+                draw_img.draw_string_advanced(self.display_size[0]//2-50,self.display_size[1]//2-50,32,"向下")
+            elif (self.draw_state == self.LEFT):
+                draw_img.draw_arrow(846,540,600,540, (255,170,190,230), thickness=13)                               # 判断为向左挥动时，画一个向左的箭头
+                draw_img.draw_string_advanced(self.display_size[0]//2-50,self.display_size[1]//2-50,32,"向左")
             elif (self.draw_state == self.MIDDLE):
                 draw_img.draw_circle(320,240,100, (255,170,190,230), thickness=2, fill=True)                       # 判断为五指捏合手势时，画一个实心圆
                 draw_img.draw_string_advanced(self.display_size[0]//2-50,self.display_size[1]//2-50,32,"中间")
@@ -644,25 +644,23 @@ if __name__=="__main__":
 
 接着是通过初始化PipeLine，这里主要初始化sensor和display模块，配置摄像头输出两路不同的格式和大小的图像，以及设置显示模式，完成创建PipeLine实例。
 
-然后调用自定义HandKeyPointClass类构建手掌关键点分类的任务，HandKeyPointClass类会通过调用HandDetApp类和HandKPClassApp类完成对AIBase接口的初始化以及使用Ai2D接口的方法定义手掌检测模型和手掌关键点检测模型输入图像的预处理方法。
+然后调用自定义DynamicGesture类构建动态手势识别的任务，DynamicGesture类会通过调用HandDetApp类、HandKPClassApp类和HandKPClassApp类完成对AIBase接口的初始化以及使用Ai2D接口的方法定义手掌检测模型、手掌关键点检测模型和动态手势识别模型输入图像的预处理方法。
 
-最后在一个循环中不断地获取摄像头输出的RGBP888格式的图像帧，然后依次将图像输入到手掌检测模型、手掌关键点检测模型进行推理，然后将推理结果通过print打印，同时根据结果信息将手掌关键点信息和手势分类信息绘制图像上，并在LCD上显示图像。
+最后在一个循环中不断地获取摄像头输出的RGBP888格式的图像帧，然后依次将图像输入到手掌检测模型、手掌关键点检测模型和动态手势识别模型进行推理，手掌检测模型、手掌关键点检测模型可以获取手掌的关键信息，动态手势识别可以获取手的状体，通过三个模型的配合使用，可以实现对手的关键点检测以及手的动作信息，然后将这些结果绘制到图像上，并在LCD上显示图像。
 
 ## 运行验证
 
-手掌关键点分类可分为以下9种手势，分别"fist"、"five"、"gun"、"love"、"one"、"six"、"three"、"thumbUp"和"yeah"，其他手势将输出"other"，9种手势图如下所示：
+动态手势识别实现了五种动态手势的识别，五种手势包括：上挥手、下挥手、左挥手、右挥手、手指捏合五个手势。
 
-![01](./img/32.png)
+将K230D BOX开发板连接CanMV IDE，点击CanMV IDE上的“开始(运行脚本)”按钮后，将摄像头对准手掌，让其采集到手掌图像，先让手指向上，此时图像左上角出现向上的手势，然后再将手指捏合，此时屏幕中间提示“中间”，表示手指捏合。如下图所示：  
 
-将K230D BOX开发板连接CanMV IDE，点击CanMV IDE上的“开始(运行脚本)”按钮后，将摄像头对准手掌，让其采集到手掌图像，随后，在LCD屏幕上可以看到摄像头输出的图像，其中，手掌会被一个矩形框标记出来，而矩形框内五个手指则会根据21个手掌骨骼的关键点，使用五种不同颜色的线条有序连接，矩形框上方标注手势分类结果。如下图所示：  
+![01](./img/64.png)
 
-![01](./img/33.png)
+先将手指朝上，图像左上角出现向上的手势，然后再将手指向下翻，此时屏幕中间提示“向下”，表示下挥手，如下图所示：
 
-当识别到其他手势时，矩形框上方显示"None"，如下图所示：
-
-![01](./img/34.png)
+![01](./img/65.png)
 
 
 
-
+其他手势点击[动态手势图](https://developer.canaan-creative.com/api/model/132/cover)
 
