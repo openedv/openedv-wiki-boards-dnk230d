@@ -1,5 +1,5 @@
 ---
-title: '自分类学习实验'
+title: '自学习分类实验'
 sidebar_position: 20
 ---
 
