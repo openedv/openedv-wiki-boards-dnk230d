@@ -13,7 +13,7 @@ sidebar_position: 8
 
 ### 概述
 
-K230D内部包含五个UART硬件模块，其中UART0被小核sh占用，UART3被大核sh占用，剩余UART1，UART2，UART4可供用户使用。UARTIO配置参考IOMUX模块。
+K230D内部包含五个UART硬件模块，其中UART0被RT-Smart占用，剩余UART1，UART2，UART3，UART4可供用户使用。UARTIO配置参考IOMUX模块。
 
 ### API描述
 
