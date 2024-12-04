@@ -52,7 +52,7 @@ K230D BOX在出厂前默认都会在其内部的SD NAND上提前烧录好CanMV�
 >  >
 >  > CH342的驱动安装教程，请见[CH342驱动安装](../set-up-development-environment/ch342-driver-install)。
 
-### 1. 打开**K230BurningTool.exe**
+### 1. 打开K230BurningTool.exe
 
 双击K230BurningTool安装目录下的`bin/K230BurningTool.exe`文件打开烧录软件
 
