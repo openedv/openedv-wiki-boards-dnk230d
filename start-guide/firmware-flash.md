@@ -91,3 +91,9 @@ K230D BOX在出厂前默认都会在其内部的SD NAND上提前烧录好CanMV�
 固件烧录成功后，软件底部的信息框会显示固件烧录结果
 
 ![k230 burning tool flash done](./img/k230-burning-tool-flash-done.png)
+
+### 5. 运行固件
+
+K230D BOX复位后默认从板载的SD NAND启动，
+
+若需要从TF卡启动，请将正确烧录好固件的TF卡插入K230D BOX，并在KEY2按下时，单击复位按键，即可从TF卡启动固件。
