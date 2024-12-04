@@ -19,11 +19,11 @@ CH342的驱动程序可在其官网的[资料下载](https://www.wch.cn/search?q
 
 ![ch342 driver installer](./img/ch342-driver-installer.png)
 
-直接点击安装程序中的”安装“按钮，安装会自动安装CH342的驱动程序，并在安装成功后，进行弹窗提示。
+直接点击安装程序中的“安装”按钮，安装会自动安装CH342的驱动程序，并在安装成功后，进行弹窗提示。
 
 ![ch342 driver install done](./img/ch342-driver-install-done.png)
 
-CH342驱动程序安装成功后，若正常连接了CH342设备，则能够在Windows的”设备管理器“中看到对应的两个端口设备。
+CH342驱动程序安装成功后，若正常连接了CH342设备，则能够在Windows的“设备管理器”中看到对应的两个端口设备。
 
 ![check ch342 com ports](./img/check-ch342-com-ports.png)
 
