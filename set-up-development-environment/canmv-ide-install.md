@@ -7,11 +7,11 @@ sidebar_position: 0
 
 ## 概述
 
-[CanMV IDE](https://github.com/kendryte/canmv_ide)是嘉楠科技官方提供的用于K230上进行CanMV应用软件开发的IDE软件。
+[**CanMV IDE**](https://github.com/kendryte/canmv_ide)是嘉楠科技官方提供的用于K230上进行CanMV应用软件开发的IDE软件。
 
 ![canmv ide](./img/canmv-ide.png)
 
-K230上使用的CanMV IDE要求为4.0.5或以上版本，建议使用最新版本的CanMV IDE，可以通过[这里](https://github.com/kendryte/canmv_ide/releases/latest)下载最新版本的CanMV IDE安装包。
+K230上使用的CanMV IDE要求为4.0.5或以上版本，建议使用最新版本的CanMV IDE，可以通过[**这里**](https://github.com/kendryte/canmv_ide/releases/latest)下载最新版本的CanMV IDE安装包。
 
 ## 安装
 

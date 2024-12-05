@@ -26,17 +26,17 @@ K230D BOX在出厂前默认都会在其内部的SD NAND上提前烧录好CanMV�
 
 ## 固件烧录工具
 
-本教程使用的K230固件烧录工具为**K230BurningTool**，软件是嘉楠科技官方提供的用于K230固件烧录的图形化软件，有Windows和Linux两种版本可供选择，可以通过[这里](https://kendryte-download.canaan-creative.com/developer/common/K230BurningTool-v2.0.0/)进行下载。
+本教程使用的K230固件烧录工具为**K230BurningTool**，软件是嘉楠科技官方提供的用于K230固件烧录的图形化软件，有Windows和Linux两种版本可供选择，可以通过[**这里**](https://kendryte-download.canaan-creative.com/developer/common/K230BurningTool-v2.0.0/)进行下载。
 
 ### 安装
 
 > 本章以Windows环境为例，介绍使用K230BurningTool的安装
 
-在[下载页面](https://kendryte-download.canaan-creative.com/developer/common/K230BurningTool-v2.0.0/)下载**K230BurningTool-Windows-v2.0.0-0-g0c27e7f.zip**，解压后即可直接使用，无需安装。
+在[**下载页面**](https://kendryte-download.canaan-creative.com/developer/common/K230BurningTool-v2.0.0/)下载**K230BurningTool-Windows-v2.0.0-0-g0c27e7f.zip**，解压后即可直接使用，无需安装。
 
 ### 使用
 
-嘉楠科技官方提供了K230BurningTool的使用说明，可以通过[这里](https://kendryte-download.canaan-creative.com/developer/common/K230BurningTool-v2.0.0/K230BurningTool.pdf)下载。
+嘉楠科技官方提供了K230BurningTool的使用说明，可以通过[**这里**](https://kendryte-download.canaan-creative.com/developer/common/K230BurningTool-v2.0.0/K230BurningTool.pdf)下载。
 
 ## 固件烧录
 
