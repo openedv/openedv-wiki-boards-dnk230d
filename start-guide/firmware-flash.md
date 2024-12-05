@@ -1,6 +1,6 @@
 ---
 title: '固件烧录'
-sidebar_position: 2 
+sidebar_position: 3
 ---
 
 # 固件烧录
