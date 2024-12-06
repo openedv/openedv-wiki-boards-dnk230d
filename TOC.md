@@ -11,12 +11,14 @@ pagination_prev: null
 - **入门指南**
   - [产品验收](./start-guide/product-acceptance)
   - [配套资料下载](./start-guide/download)
+  - [K230D BOX 介绍](./start-guide/k230d-box-introduction)
+  - [K230D 与 CanMV 介绍](./start-guide/k230d-and-canmv-introduction)
   - [固件烧录](./start-guide/firmware-flash)
   - [常见问题汇总（FAQ）](./start-guide/FAQ)
 
 - **开发环境搭建**
-  - [CanMV IDE安装](./set-up-development-environment/canmv-ide-install)
-  - [CH342驱动安装](./set-up-development-environment/ch342-driver-install)
+  - [CanMV IDE 安装](./set-up-development-environment/canmv-ide-install)
+  - [CH342 驱动安装](./set-up-development-environment/ch342-driver-install)
 
 - **基础类实验**
   - [跑马灯实验](./example-base/led)
