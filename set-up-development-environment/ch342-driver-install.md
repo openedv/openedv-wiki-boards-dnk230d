@@ -7,7 +7,7 @@ sidebar_position: 1
 
 ## 概述
 
-[**CH342**](https://www.wch.cn/products/CH342.html) 是一个 USB 总线的转接芯片，实现 USB 转两个异步串口，可以供 K230 的两个核心同时使用。
+[**CH342**](https://www.wch.cn/products/CH342.html) 是一个 USB 总线的转接芯片，实现 USB 转两个异步串口，可以供 K230D 的两个核心同时使用。
 
 CH342 的驱动程序可在其官网的[**资料下载**](https://www.wch.cn/search?q=CH342&t=downloads)页面进行下载，也可以通过[**这里**](https://www.wch.cn/downloads/CH343SER_EXE.html)下载最新的适用于 Windows 的一键式安装驱动程序。
 
