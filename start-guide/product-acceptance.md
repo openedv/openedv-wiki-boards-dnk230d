@@ -9,15 +9,9 @@ sidebar_position: 1
 
 ## 外观检查
 
-K230D BOX 采用透明塑料盒进行包装，如下
-
-![k230d box with packaging box](./img/k230d-box-with-packaging-box.png)
-
-透明塑料盒中包含了 K230D BOX 标配套餐中的所有物品，如还购买了其他产品，请单独验收。
+K230D BOX 采用透明塑料盒进行包装，其中包含了 K230D BOX 标配套餐中的所有物品，如还购买了其他产品，请单独验收。
 
 在确认透明塑料盒外观误损坏后，打开透明塑料盒并取出其中的所有物品进行清点、检查
-
-![k230d box product list](./img/k230d-box-product-list.png)
 
 透明塑料盒中应包含如下物品
 
