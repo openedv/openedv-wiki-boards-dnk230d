@@ -18,3 +18,6 @@ sidebar_position: 6
    - 是正常的，因为 K230D BOX 上搭载的 Kendryte K230D 芯片，其采用内部集成了两个 RISC-V 高能效计算核心和嘉楠的第三代自研 KPU，同时因为 K230D BOX 小巧的体积，散热条件有限，所以整体温度较高。
    - 当然，可以将产品包装盒里附带的散热片贴在 K230D 芯片上，以帮助 K230D 散热。
    ![k230d box with heat sink](./img/k230d-box-with-heat-sink.png)
+
+5. K230D BOX 运行综合例程，从 AI Hub 进入 AI 例程后，无法退出？
+   - 从综合例程进入 AI 例程后，通过长按 KEY0 按键，即可返回综合例程。
