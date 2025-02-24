@@ -117,7 +117,7 @@ fpioa.set_function(0, FPIOA.GPIO0)
 # 构造GPIO对象
 key0 = Pin(34, Pin.IN, pull=Pin.PULL_UP, drive=7)
 key1 = Pin(35, Pin.IN, pull=Pin.PULL_UP, drive=7)
-key2 = Pin(0, Pin.IN, pull=Pin.PULL_UP, drive=7)
+key2 = Pin(0, Pin.IN, pull=Pin.PULL_DOWN, drive=7)
 
 i = 0
 print(uos.listdir("/sdcard/"))
@@ -137,7 +137,7 @@ while True:
         print(text) #读取数据并在终端打印
         f.close() #每次操作完记得关闭文件
         time.sleep_ms(50)
-    if key2.value() == 0:
+    if key2.value() == 1:
         print(uos.listdir("/sdcard/"))
         time.sleep_ms(50)
     time.sleep_ms(200)

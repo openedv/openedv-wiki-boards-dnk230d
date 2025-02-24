@@ -79,7 +79,7 @@ ledr = Pin(61, Pin.OUT, pull=Pin.PULL_NONE, drive=7)
 beep = PWM(0, 4000, duty=50, enable=False)
 key0 = Pin(34, Pin.IN, pull=Pin.PULL_UP, drive=7)
 key1 = Pin(35, Pin.IN, pull=Pin.PULL_UP, drive=7)
-key2 = Pin(0, Pin.IN, pull=Pin.PULL_UP, drive=7)
+key2 = Pin(0, Pin.IN, pull=Pin.PULL_DOWN, drive=7)
 
 while True:
     # 读取按键状态，并做相应的按键解释
@@ -91,7 +91,7 @@ while True:
         ledb.value(0)
     else:
         ledb.value(1)
-    if key2.value() == 0:
+    if key2.value() == 1:
         beep.enable(True)
     else:
         beep.enable(False)
