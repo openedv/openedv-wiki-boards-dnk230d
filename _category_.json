@@ -1,8 +1,7 @@
 {
-    "label": "K230D BOX",
-    "position": 1,
-    "link": {
-      "type": "generated-index"
-    }
+  "label": "K230D BOX",
+  "position": 1,
+  "link": {
+    "type": "generated-index"
   }
-  
+}
