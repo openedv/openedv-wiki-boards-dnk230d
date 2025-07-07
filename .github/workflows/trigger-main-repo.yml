@@ -15,4 +15,4 @@ jobs:
             https://api.github.com/repos/openedv/openedv-wiki/dispatches \
             -H "Accept: application/vnd.github.v3+json" \
             -H 'Authorization: token ${{ secrets.GH_TOKEN }}' \
-            -d '{"event_type":"build"}'
+            -d '{"event_type":"build","client_payload":{"repo_name":"${{ github.repository }}"}}'
