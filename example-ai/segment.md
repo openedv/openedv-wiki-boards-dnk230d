@@ -174,7 +174,7 @@ if __name__=="__main__":
                 # 推理当前帧
                 seg_res=seg.run(img)
                 # 打印结果
-                # print(seg_res)
+#                print(seg_res)
                 # 绘制结果到PipeLine的osd图像
                 seg.draw_result(pl,seg_res)
                 # 显示当前的绘制结果

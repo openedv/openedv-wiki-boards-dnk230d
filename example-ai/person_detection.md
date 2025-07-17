@@ -149,7 +149,7 @@ if __name__=="__main__":
     # 其它参数设置
     confidence_threshold = 0.2
     nms_threshold = 0.6
-    rgb888p_size=[1280,960]
+    rgb888p_size=[640,360]
     labels = ["person"]
     anchors = [10, 13, 16, 30, 33, 23, 30, 61, 62, 45, 59, 119, 116, 90, 156, 198, 373, 326]
 
@@ -169,7 +169,7 @@ if __name__=="__main__":
                 # 推理当前帧
                 res=person_det.run(img)
                 # 打印结果
-                # print(res)
+#                print(res)
                 # 绘制结果到PipeLine的osd图像
                 person_det.draw_result(pl,res)
                 # 显示当前的绘制结果

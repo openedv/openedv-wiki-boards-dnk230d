@@ -155,7 +155,7 @@ if __name__=="__main__":
     # 其它参数设置
     confidence_threshold = 0.2
     nms_threshold = 0.5
-    rgb888p_size=[1280,960]
+    rgb888p_size=[640,360]
     # 初始化PipeLine
     sensor = Sensor(width=1280, height=960) # 构建摄像头对象
     pl = PipeLine(rgb888p_size=rgb888p_size, display_size=display_size, display_mode=display_mode)

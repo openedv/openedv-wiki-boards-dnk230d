@@ -129,7 +129,7 @@ if __name__ == "__main__":
     anchors_path = "/sdcard/examples/utils/prior_data_320.bin"
     anchors = np.fromfile(anchors_path, dtype=np.float)
     anchors = anchors.reshape((anchor_len, det_dim))
-    rgb888p_size = [1280, 960]
+    rgb888p_size = [640, 360]
 
     # 初始化PipeLine，用于图像处理流程
     sensor = Sensor(width=1280, height=960) # 构建摄像头对象
@@ -146,8 +146,8 @@ if __name__ == "__main__":
                 img = pl.get_frame()            # 获取当前帧数据
                 res = face_det.run(img)         # 推理当前帧
                 # 当检测到人脸时，打印结果
-                if res:
-                    print(res)
+#                if res:
+#                    print(res)
                 face_det.draw_result(pl, res)   # 绘制结果
                 pl.show_image()                 # 显示结果
                 gc.collect()                    # 垃圾回收

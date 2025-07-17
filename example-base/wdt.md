@@ -79,6 +79,7 @@ from machine import WDT
 from machine import Pin
 from machine import FPIOA
 import time
+
 # 实例化FPIOA
 fpioa = FPIOA()
 
@@ -102,7 +103,7 @@ while feed_times < 5:
             # 对WDT喂狗
             wdt1.feed()
             feed_times += 1
-            print("Feed WDT0 %d times." % (feed_times))
+            print("Feed WDT1 %d times." % (feed_times))
             while key0.value() == 0:
                 pass
     time.sleep_ms(10)

@@ -65,7 +65,6 @@ https://developer.canaan-creative.com/k230_canmv/dev/zh/api/openmv/image.html
 ## 实验代码
 
 ``` python
-
 import time, os, sys
 from media.sensor import *  # 导入sensor模块，使用摄像头相关接口
 from media.display import * # 导入display模块，使用display相关接口

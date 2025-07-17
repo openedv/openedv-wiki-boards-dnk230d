@@ -218,7 +218,7 @@ if __name__=="__main__":
                 # 推理当前帧
                 res=ob_det.run(img)
                 # 打印结果
-                # print(res)
+#                print(res)
                 # 绘制结果到PipeLine的osd图像
                 ob_det.draw_result(pl,res)
                 # 显示当前的绘制结果

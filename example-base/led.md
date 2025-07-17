@@ -249,8 +249,8 @@ fpioa.set_function(59, FPIOA.GPIO59)
 fpioa.set_function(61, FPIOA.GPIO61)
 
 # 实例化蓝色LED灯和红色LED灯引脚为输出
-ledb = Pin(59, Pin.OUT, pull=Pin.PULL_NONE, drive=7)
 ledr = Pin(61, Pin.OUT, pull=Pin.PULL_NONE, drive=7)
+ledb = Pin(59, Pin.OUT, pull=Pin.PULL_NONE, drive=7)
 
 # 设置输出为高
 ledb.value(1)

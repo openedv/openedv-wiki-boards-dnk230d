@@ -627,7 +627,7 @@ if __name__=="__main__":
             with ScopedTiming("total",1):
                 img=pl.get_frame()                 # 获取当前帧
                 output1,output2=dg.run(img)        # 推理当前帧
-#                print(output1, output2)            # 打印结果
+                # print(output1, output2)            # 打印结果？
                 dg.draw_result(pl,output1,output2) # 绘制推理结果
                 pl.show_image()                    # 展示推理结果
                 gc.collect()

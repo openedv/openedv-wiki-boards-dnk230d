@@ -126,7 +126,7 @@ while True:
     # 读取按键状态，并做相应的按键解释
     if key0.value() == 0:
         f = open('/sdcard/test.txt', 'w') #以写的方式打开一个文件，没有该文件就自动新建
-        wr_data = "正点原子 DNK230D + {}".format(i)
+        wr_data = "正点原子 K230D BOX + {}".format(i)
         f.write(wr_data) #写入数据
         f.close() #每次操作完记得关闭文件
         print("write success") #读取数据并在终端打印

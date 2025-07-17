@@ -125,7 +125,7 @@ if __name__ == "__main__":
     # 初始化音频预处理接口
     fp = aidemo.kws_fp_create()
     # 初始化音频流
-    p = PyAudi(u)
+    p = PyAudio()
     p.initialize(CHUNK)
     MediaManager.init()    #vb buffer初始化
     # 用于采集实时音频数据

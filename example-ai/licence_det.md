@@ -114,7 +114,7 @@ if __name__=="__main__":
     # 其它参数设置
     confidence_threshold = 0.2
     nms_threshold = 0.2
-    rgb888p_size=[1280,960]
+    rgb888p_size=[640,360]
 
     # 初始化PipeLine
     sensor = Sensor(width=1280, height=960) # 构建摄像头对象
@@ -132,7 +132,7 @@ if __name__=="__main__":
                 # 推理当前帧
                 res=licence_det.run(img)
                 # 打印结果
-                # print(res)
+#                print(res)
                 # 绘制结果到PipeLine的osd图像
                 licence_det.draw_result(pl,res)
                 # 显示当前的绘制结果

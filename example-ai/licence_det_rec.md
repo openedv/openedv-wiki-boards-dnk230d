@@ -179,7 +179,7 @@ class LicenceRec:
                     point_8[i * 2 + 1] = int(y)
                 for i in range(4):
                     pl.osd_img.draw_line(point_8[i * 2 + 0],point_8[i * 2 + 1],point_8[(i+1) % 4 * 2 + 0],point_8[(i+1) % 4 * 2 + 1],color=(255, 0, 255, 0),thickness=4)
-                pl.osd_img.draw_string_advanced( point_8[6], point_8[7] + 20, 40,rec_res[det_index] , color=(255,255,153,18))
+                pl.osd_img.draw_string_advanced( point_8[4], point_8[5] - 42, 40,rec_res[det_index] , color=(255,255,153,18))
 
 
 if __name__=="__main__":
@@ -208,7 +208,7 @@ if __name__=="__main__":
             with ScopedTiming("total",1):
                 img=pl.get_frame()                  # 获取当前帧
                 det_res,rec_res=lr.run(img)         # 推理当前帧
-                # print(det_res, rec_res)             # 打印结果
+#                print(det_res, rec_res)             # 打印结果
                 lr.draw_result(pl,det_res,rec_res)  # 绘制当前帧推理结果
                 pl.show_image()                     # 展示推理结果
                 gc.collect()
@@ -218,7 +218,6 @@ if __name__=="__main__":
         lr.licence_det.deinit()
         lr.licence_rec.deinit()
         pl.destroy()
-
 ```
 
 可以看到一开始是先定义显示模式、图像大小、模型相关的一些变量。

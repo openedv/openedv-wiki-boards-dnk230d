@@ -150,7 +150,7 @@ if __name__=="__main__":
     # 其它参数设置
     confidence_threshold = 0.2
     nms_threshold = 0.5
-    rgb888p_size=[1280,960]
+    rgb888p_size=[640,360]
     labels = ["hand"]
     anchors = [26,27, 53,52, 75,71, 80,99, 106,82, 99,134, 140,113, 161,172, 245,276]   #anchor设置
 
