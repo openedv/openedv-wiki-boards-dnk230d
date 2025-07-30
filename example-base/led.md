@@ -55,7 +55,7 @@ FPIOA.set_function(pin, func, ie=-1, oe=-1, pu=-1, pd=-1, st=-1, sl=-1, ds=-1)
 
 更多用法请阅读官方API手册：
 
-https://developer.canaan-creative.com/k230_canmv/dev/zh/api/canmv_spec.html
+[链接](https://www.kendryte.com/k230_canmv/zh/main/zh/api/machine/K230_CanMV_FPIOA%E6%A8%A1%E5%9D%97API%E6%89%8B%E5%86%8C.html)
 
 ## Pin模块介绍
 
@@ -210,7 +210,7 @@ Pin.low()
 
 更多用法请阅读官方API手册：
 
-https://developer.canaan-creative.com/k230_canmv/dev/zh/api/canmv_spec.html
+[链接](https://www.kendryte.com/k230_canmv/zh/main/zh/api/machine/K230_CanMV_Pin%E6%A8%A1%E5%9D%97API%E6%89%8B%E5%86%8C.html)
 
 ## 硬件设计
 

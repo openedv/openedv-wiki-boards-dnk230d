@@ -50,7 +50,7 @@ WDT.feed()
 
 更多用法请阅读官方API手册：
 
-https://developer.canaan-creative.com/k230_canmv/dev/zh/api/canmv_spec.html
+[链接](https://www.kendryte.com/k230_canmv/zh/main/zh/api/machine/K230_CanMV_WDT%E6%A8%A1%E5%9D%97API%E6%89%8B%E5%86%8C.html)
 
 ## 硬件设计
 

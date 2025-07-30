@@ -26,8 +26,8 @@ sidebar_position: 0
 
 AI视觉识别的开发过程包括图像预处理、模型推理和输出后处理。我们将整个过程封装在Ai2D类和AIBase类中。要完成整个开发过程，主要使用以下四个类，这四个类分别提供了AI视觉识别开发过程中不同部分所需的功能。由于这四个类涉及的内容较多，这里不再展开详细讲述，详细介绍请参考对应链接。
 
-- `PineLine`：由sensor模块、display模块二次封装的接口，用于设置摄像头图像采集、输出对应格式图像到AI处理和显示等。[点击查看详细介绍](https://developer.canaan-creative.com/k230_canmv/main/zh/example/ai/AI_Demo%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.html#pipeline)
+- `PineLine`：由sensor模块、display模块二次封装的接口，用于设置摄像头图像采集、输出对应格式图像到AI处理和显示等。
 
-- `Ai2D`：图像预处理接口，提供crop/shift/pad/resize/affine等预处理方法。[点击查看详细介绍](https://developer.canaan-creative.com/k230_canmv/main/zh/example/ai/AI_Demo%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.html#ai2d)
-- `AIBase`：模型推理主要接口，也是进行AI开发主要关注的部分。[点击查看详细介绍](https://developer.canaan-creative.com/k230_canmv/main/zh/example/ai/AI_Demo%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.html#aibase)
-- `ScopedTiming`：测量代码块执行时间的上下文管理器。[点击查看详细介绍](https://developer.canaan-creative.com/k230_canmv/main/zh/example/ai/AI_Demo%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.html#aibase)
+- `Ai2D`：图像预处理接口，提供crop/shift/pad/resize/affine等预处理方法。
+- `AIBase`：模型推理主要接口，也是进行AI开发主要关注的部分。
+- `ScopedTiming`：测量代码块执行时间的上下文管理器。

@@ -662,5 +662,4 @@ if __name__=="__main__":
 
 
 
-其他手势点击[动态手势图](https://developer.canaan-creative.com/api/model/132/cover)
 

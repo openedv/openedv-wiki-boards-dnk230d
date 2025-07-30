@@ -45,7 +45,7 @@ sidebar_position: 9
 
 更多用法请阅读官方API手册：
 
-https://developer.canaan-creative.com/k230_canmv/dev/zh/api/openmv/image.html
+[链接](https://www.kendryte.com/k230_canmv/zh/main/zh/api/openmv/image.html)
 
 ## 硬件设计
 
